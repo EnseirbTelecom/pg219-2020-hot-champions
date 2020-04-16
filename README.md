@@ -1,5 +1,10 @@
 # FriendFinder
 
+## Installation
+Dans le répertoire
+``` npm install
+``` npm start
+
 ## Framework7 CLI Options
 
 Framework7 app created with following options:
