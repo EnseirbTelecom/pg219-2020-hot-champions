@@ -1,0 +1,413 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Swagger FriendFinder",
+    "contact" : {
+      "email" : "esteban.estoc@enseirb-matmeca.fr"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/EstebanEstoc/FriendFinder/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
+    "url" : "https://petstore.swagger.io/v2"
+  } ],
+  "tags" : [ {
+    "name" : "user",
+    "description" : "Opérations concernant les utilisateurs"
+  }, {
+    "name" : "location",
+    "description" : "Opérations concernant les localisations"
+  }, {
+    "name" : "friends",
+    "description" : "Opérations concernant les amis"
+  } ],
+  "paths" : {
+    "/user" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Connexion d'un utilisateur",
+        "operationId" : "login",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "User not found"
+          },
+          "405" : {
+            "description" : "Wrong Password"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Inscription d'un utilisateur",
+        "operationId" : "signup",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "402" : {
+            "description" : "User already exist"
+          }
+        }
+      }
+    },
+    "/user/location" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Récupérer position courante de l'utilisateur",
+        "operationId" : "addFriends",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "User not found"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      }
+    },
+    "/friends" : {
+      "get" : {
+        "tags" : [ "friends" ],
+        "summary" : "Récupérer la liste des amis",
+        "operationId" : "getFriends",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200_2"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "User not found"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "friends" ],
+        "summary" : "Accepter demande d'ami",
+        "operationId" : "acceptFriends",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification"
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "407" : {
+            "description" : "Friend request no longer available"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "friends" ],
+        "summary" : "Demande d'amis",
+        "operationId" : "addFriends",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification"
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "User not found"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "friends" ],
+        "summary" : "Supprimer ami ou demande d'ami",
+        "operationId" : "acceptFriends",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification"
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "User not found"
+          },
+          "407" : {
+            "description" : "Friend request no longer available"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      }
+    },
+    "/location" : {
+      "get" : {
+        "tags" : [ "location" ],
+        "summary" : "Récupérer l'historique des positions",
+        "operationId" : "history",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200_3"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "406" : {
+            "description" : "No location found"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "location" ],
+        "summary" : "Archiver la position courante",
+        "operationId" : "archive",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification"
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "406" : {
+            "description" : "No location found"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "location" ],
+        "summary" : "Ajouter la position courante",
+        "operationId" : "add",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification"
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "location" ],
+        "summary" : "Supprimer une position",
+        "operationId" : "delete",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfull Authentification"
+          },
+          "400" : {
+            "description" : "Request Error"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "406" : {
+            "description" : "No location found"
+          }
+        },
+        "security" : [ {
+          "tokenAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "friends_location" : {
+        "type" : "object",
+        "properties" : {
+          "longitude" : {
+            "type" : "number",
+            "example" : 54.3
+          },
+          "latitude" : {
+            "type" : "number",
+            "example" : 60.45
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "location" : {
+            "$ref" : "#/components/schemas/friends_location"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "text" : {
+            "type" : "string",
+            "example" : "Successfull Authentification"
+          },
+          "jwt.token" : {
+            "type" : "string",
+            "example" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODA5MjkyODIsImV4cCI6MTQ4MDkzMjg2OCwibmFtZSI6IlVzZXJuYW1lIn0.gZeuWNbjO8kyEX92AjgX5oLy5qhu6YWTPr6vtYELZQ4"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/inline_response_200_user"
+          }
+        }
+      },
+      "inline_response_200_2" : {
+        "type" : "object",
+        "properties" : {
+          "location" : {
+            "$ref" : "#/components/schemas/friends_location"
+          },
+          "pseudoFriend" : {
+            "type" : "string",
+            "example" : "Bidule48"
+          }
+        }
+      },
+      "inline_response_200_3" : {
+        "type" : "object",
+        "properties" : {
+          "location" : {
+            "$ref" : "#/components/schemas/friends_location"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/location_time"
+          }
+        }
+      },
+      "inline_response_200_user" : {
+        "type" : "object",
+        "properties" : {
+          "pseudo" : {
+            "type" : "string",
+            "example" : "TotoDu45"
+          }
+        }
+      },
+      "location_time" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "hour" : {
+            "type" : "string",
+            "example" : "10h20"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "UnauthorizedError" : {
+        "description" : "Access token is missing or invalid"
+      }
+    },
+    "securitySchemes" : {
+      "tokenAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}

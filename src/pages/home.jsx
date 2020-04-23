@@ -44,6 +44,7 @@ export default () => (
     <List>
       <ListItem link="/about/" title="About"/>
       <ListItem link="/form/" title="Form"/>
+      <ListItem link="/swagger/" title="Swagger"/>
     </List>
 
     <BlockTitle>Modals</BlockTitle>
