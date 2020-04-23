@@ -5,9 +5,6 @@ info:
     email: esteban.estoc@enseirb-matmeca.fr
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/EstebanEstoc/FriendFinder/1.0.0
-  description: SwaggerHub API Auto Mocking
-- url: https://petstore.swagger.io/v2
 tags:
 - name: user
   description: Opérations concernant les utilisateurs

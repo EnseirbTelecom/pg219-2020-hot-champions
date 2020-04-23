@@ -2,7 +2,6 @@
 import HomePage from '../pages/home.jsx';
 import AboutPage from '../pages/about.jsx';
 import FormPage from '../pages/form.jsx';
-import SwaggerPage from '../pages/swagger.jsx';
 
 import DynamicRoutePage from '../pages/dynamic-route.jsx';
 import RequestAndLoad from '../pages/request-and-load.jsx';
@@ -17,10 +16,7 @@ var routes = [
     path: '/about/',
     component: AboutPage,
   },
-  {
-    path: '/swagger/',
-    component: SwaggerPage,
-  },
+
   {
     path: '/form/',
     component: FormPage,
