@@ -22,7 +22,6 @@ var routes = [
     component: FormPage,
   },
 
-
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',
     component: DynamicRoutePage,
