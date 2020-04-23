@@ -8,7 +8,7 @@ Nous avons mit en place un Swagger OpenAPI pour détailler les requêtes de notr
 # 2. Afficher le Swagger
 ## Soit
 ### Générer la page HTML
-`redoc-cli bundle doc/api/openapi.yaml`
+`redoc-cli bundle openapi.yaml`
 ## Ou
 ### Lancer le serveur hébergeant le Swagger
-`redoc-cli serve doc/api/openapi.yaml`
+`redoc-cli serve openapi.yaml`
