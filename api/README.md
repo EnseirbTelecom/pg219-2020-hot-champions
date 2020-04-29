@@ -1,3 +1,3 @@
-#FriendFinder
+# FriendFinder
 Partie server
 ## Installation
