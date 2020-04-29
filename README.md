@@ -1,5 +1,5 @@
 # FriendFinder 
 ## About
 ## Architecture 
-[Client](client)</br>
-[Server](api)
+[Client](src/client)</br>
+[Server](src/api)
