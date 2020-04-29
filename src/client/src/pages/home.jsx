@@ -16,6 +16,7 @@ import {
   Col,
   Button
 } from 'framework7-react';
+import Map from '../components/map';
 
 export default () => (
   <Page name="home">
@@ -39,6 +40,8 @@ export default () => (
     <Block strong>
       <p>Here is your blank Framework7 app. Let's see what we have here.</p>
     </Block>
+
+    <Map></Map>
 
     <BlockTitle>Navigation</BlockTitle>
     <List>
