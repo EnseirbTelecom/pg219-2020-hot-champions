@@ -18,9 +18,9 @@ import '../css/app.scss';
 // Import App Component
 import App from '../components/app.jsx';
 
+
 // Init F7 Vue Plugin
 Framework7.use(Framework7React)
-
 // Mount React App
 ReactDOM.render(
   React.createElement(App),

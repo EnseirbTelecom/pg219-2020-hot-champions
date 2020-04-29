@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-
+import Marker from './Marker';
+import getPosition from '../utils/GetPosition';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 export default class Map extends React.Component {
@@ -21,11 +22,12 @@ export default class Map extends React.Component {
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
-          <AnyReactComponent
-            lat={44.8333}
-            lng={-0.5667}
-            text="Bordeaux"
-          />
+        <Marker
+          lat={44.8333}
+          lng={-0.5667}
+          name="My Marker"
+          color="blue"
+        />
         </GoogleMapReact>
       </div>
     );
