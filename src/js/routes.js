@@ -9,6 +9,31 @@ import NotFoundPage from '../pages/404.jsx';
 
 var routes = [
   {
+    name: 'HomePage',
+    path: '/',
+    url: '/pages/home.jsx',
+  },
+  {
+    name: '',
+    path: '/user/',
+    url: '/pages/user.jsx',
+  },
+  {
+    name: '',
+    path: '/user/location/',
+    url: '/pages/userLocation.jsx',
+  },
+  {
+    name: '',
+    path: '/location/',
+    url: '/pages/location.jsx',
+  },
+  {
+    name: '',
+    path: '/friends/',
+    url: '/pages/friends.jsx',
+  },
+  {
     path: '/',
     component: HomePage,
   },
@@ -21,6 +46,7 @@ var routes = [
     path: '/form/',
     component: FormPage,
   },
+  
 
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',
