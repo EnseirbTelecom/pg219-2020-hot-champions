@@ -17,13 +17,14 @@ import {
   Button
 } from 'framework7-react';
 import Map from '../components/map';
+import Position from '../utils/Position';
 
 export default () => (
   <Page name="home">
     {/* Top Navbar */}
     <Navbar sliding={false} large>
       <NavLeft>
-        <Link iconIos="f7:menu" iconAurora="f7:menu" iconMd="material:menu" panelOpen="left" />
+        <Link iconIos="f7:bars" iconAurora="f7:bars" iconMd="material:bars" panelOpen="left" />
       </NavLeft>
       <NavTitle sliding>FriendFinder</NavTitle>
       <NavRight>
@@ -40,8 +41,12 @@ export default () => (
     <Block strong>
       <p>Here is your blank Framework7 app. Let's see what we have here.</p>
     </Block>
-
-    <Map></Map>
+    <Block>
+      <Map></Map>
+    </Block>
+    <Block>
+      <Button width="50" className="demo-col-center-content" fill onClick={()=>Position.getCurrentPosition()}>Get Position</Button>
+    </Block>
 
     <BlockTitle>Navigation</BlockTitle>
     <List>
