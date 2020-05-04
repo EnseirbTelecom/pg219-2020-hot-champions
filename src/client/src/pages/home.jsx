@@ -18,19 +18,19 @@ import {
 } from 'framework7-react';
 import Map from '../components/map';
 import Position from '../utils/Position';
+import MenuIcon from '@material-ui/icons/Menu';
 
 export default () => (
   <Page name="home">
     {/* Top Navbar */}
-    <Navbar sliding={false} large>
+    <Navbar>
       <NavLeft>
-        <Link iconIos="f7:bars" iconAurora="f7:bars" iconMd="material:bars" panelOpen="left" />
+        <Link panelOpen="left"> <MenuIcon style={{ fontSize: 40 }}/> </Link>
       </NavLeft>
-      <NavTitle sliding>FriendFinder</NavTitle>
+      <NavTitle>FriendFinder</NavTitle>
       <NavRight>
-        <Link iconIos="f7:menu" iconAurora="f7:menu" iconMd="material:menu" panelOpen="right" />
+        <Link panelOpen="right"> Friends </Link>
       </NavRight>
-      <NavTitleLarge>FriendFinder</NavTitleLarge>
     </Navbar>
     {/* Toolbar */}
     <Toolbar bottom>
@@ -38,9 +38,6 @@ export default () => (
       <Link>Right Link</Link>
     </Toolbar>
     {/* Page content */}
-    <Block strong>
-      <p>Here is your blank Framework7 app. Let's see what we have here.</p>
-    </Block>
     <Block>
       <Map></Map>
     </Block>

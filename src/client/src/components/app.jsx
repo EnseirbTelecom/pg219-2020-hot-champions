@@ -76,7 +76,7 @@ export default class extends React.Component {
         <Panel right reveal themeDark>
           <View>
             <Page>
-              <Navbar title="Right Panel"/>
+              <Navbar title="Friends"/>
               <Block>Right panel content goes here</Block>
             </Page>
           </View>
