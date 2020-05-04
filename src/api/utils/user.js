@@ -11,3 +11,12 @@ function inscription(firstName, email, pseudo, lastName, password){
         .catch(err => console.log("err" + err))
 }
 
+function connexion(){
+    
+
+}
+
+
+app.get('/connexion', user.connexion);
+    app.post('/inscription',user.inscription);
+    app.post('/userLocation', user.userLocation);
