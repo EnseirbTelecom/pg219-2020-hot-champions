@@ -1,7 +1,8 @@
 export default{
-    getPosition: function(){
+    getCurrentPosition: function(){
+        console.log("test");
         var onSuccess = function(position) {
-            alert('lat: '         + position.coords.latitude          + '\n' +
+            console.log('lat: '         + position.coords.latitude          + '\n' +
                   'lng: '         + position.coords.longitude         + '\n' );
         };
         // onError Callback receives a PositionError object

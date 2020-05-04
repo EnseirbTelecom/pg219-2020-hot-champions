@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import Marker from './Marker';
-import getPosition from '../utils/GetPosition';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
+import Position from '../utils/Position';
 
 export default class Map extends React.Component {
   static defaultProps = {
@@ -10,7 +10,9 @@ export default class Map extends React.Component {
       lat: 44.8333,
       lng: -0.5667
     },
-    zoom: 11
+    zoom: 11,
+    markers:{
+    }
   };
 
   render() {
@@ -23,11 +25,12 @@ export default class Map extends React.Component {
           defaultZoom={this.props.zoom}
         >
         <Marker
-          lat={44.8333}
-          lng={-0.5667}
+          lat={this.props.center.lat}
+          lng={this.props.center.lng}
           name="My Marker"
-          color="blue"
-        />
+          color="gray"
+        >
+        </Marker>
         </GoogleMapReact>
       </div>
     );

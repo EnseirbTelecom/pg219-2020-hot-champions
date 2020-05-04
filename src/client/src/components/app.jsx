@@ -59,10 +59,10 @@ export default class extends React.Component {
   }
   render() {
     return (
-      <App params={ this.state.f7params } themeDark>
+      <App params={ this.state.f7params } themeLight>
 
         {/* Left panel with cover effect*/}
-        <Panel left cover themeDark>
+        <Panel left cover themeLight>
           <View>
             <Page>
               <Navbar title="Left Panel"/>
@@ -72,11 +72,11 @@ export default class extends React.Component {
         </Panel>
 
 
-        {/* Right panel with reveal effect*/}
-        <Panel right reveal themeDark>
+        {/* Right panel with cover effect*/}
+        <Panel right cover themeLight>
           <View>
             <Page>
-              <Navbar title="Right Panel"/>
+              <Navbar title="Friends"/>
               <Block>Right panel content goes here</Block>
             </Page>
           </View>
