@@ -38,9 +38,7 @@ export default () => (
       <Link>Right Link</Link>
     </Toolbar>
     {/* Page content */}
-    <Block>
-      <Map></Map>
-    </Block>
+    <Map/>
     <Block>
       <Button width="50" className="demo-col-center-content" fill onClick={()=>Position.getCurrentPosition()}>Get Position</Button>
     </Block>
