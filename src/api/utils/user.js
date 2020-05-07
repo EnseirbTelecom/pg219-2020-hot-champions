@@ -1,22 +1,30 @@
-function inscription(firstName, email, pseudo, lastName, password){
+function inscription(req,res){
     const user = {
-        "firstName" : firstName,
-        "email" : email,
-        "password" : password,
-        "lastName" : lastName,
-        "pseudo" : pseudo,
+        "firstName" : req.body.firstName,
+        "email" : req.body.email,
+        "password" : req.body.password,
+        "lastName" : req.body.lastName,
+        "pseudo" : req.body.pseudo,
     }
-    users.insertOne(user)
-        .then(res.status(404).json({ error: "Entity not found." }))
-        .catch(err => console.log("err" + err))
+    if(users.findOne(req.body.email)){
+        "User already exist"
+    }else{
+        users.insertOne(user)
+            .then(res.status(404).json({ error: "Entity not found." }))
+            .catch(err => console.log("err" + err))
+    }
 }
 
-function connexion(){
-    
+function connexion(req,res){
+    if(users.findOne(req.body.email)){
+        if(req.body.emeil == users.password){
 
+        }else{
+            "wrong password"
+        }
+    }else{
+        "user not found"
+    }
 }
 
-
-app.get('/connexion', user.connexion);
-    app.post('/inscription',user.inscription);
-    app.post('/userLocation', user.userLocation);
+    //Utiliser jwt + hash code pour mdp
