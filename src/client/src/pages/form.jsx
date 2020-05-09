@@ -15,16 +15,9 @@ import {
 
 export default () => (
   <Page name="form">
-    <Navbar title="Form" backLink="Back"></Navbar>
-
-    <BlockTitle>Form Example</BlockTitle>
+    <Navbar backLink="Back"></Navbar>
+    <BlockTitle>Add Friend</BlockTitle>
     <List noHairlinesMd>
-      <ListInput
-        label="Name"
-        type="text"
-        placeholder="Your name"
-      ></ListInput>
-
       <ListInput
         label="E-mail"
         type="email"
