@@ -1,7 +1,7 @@
 
 import HomePage from '../pages/home.jsx';
 import AboutPage from '../pages/about.jsx';
-import FormPage from '../pages/form.jsx';
+import FormPage from '../pages/friendForm.jsx';
 
 import DynamicRoutePage from '../pages/dynamic-route.jsx';
 import RequestAndLoad from '../pages/request-and-load.jsx';
@@ -18,7 +18,7 @@ var routes = [
   },
 
   {
-    path: '/form/',
+    path: '/friendForm/',
     component: FormPage,
   },
   

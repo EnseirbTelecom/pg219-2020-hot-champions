@@ -10,20 +10,30 @@ import {
   Navbar,
   Toolbar,
   NavRight,
+  NavLeft,
+  NavTitle,
+  NavTitleLarge,
   Link,
   Block,
+  Subnavbar,
   BlockTitle,
   LoginScreen,
   LoginScreenTitle,
   List,
+  Button,
+  Icon,
   ListItem,
   ListInput,
+  Searchbar,
   ListButton,
-  BlockFooter
+  BlockFooter,
+  ListGroup
 } from 'framework7-react';
 
 import cordovaApp from '../js/cordova-app';
 import routes from '../js/routes';
+import Friend from './friend'
+import { ListItemSecondaryAction } from '@material-ui/core';
 
 export default class extends React.Component {
   constructor() {
@@ -65,19 +75,82 @@ export default class extends React.Component {
         <Panel left cover themeLight>
           <View>
             <Page>
-              <Navbar title="Left Panel"/>
-              <Block>Left panel content goes here</Block>
+              <Navbar title="Navigation"/>
+
+              <Block>
+                <List>
+                  <ListItem link="#" title="My positions"></ListItem>
+                </List>
+                <List>
+                  <ListGroup>
+                    <ListItem groupTitle title="My information" ></ListItem>
+                    <ListItem
+                      header = "First Name" 
+                      title="Titi"
+                    ></ListItem>
+                    <ListItem
+                      header = "Last Name" 
+                      title="Tarent"
+                    ></ListItem>
+                    <ListItem
+                      header = "Pseudo" 
+                      title="totodu46"
+                    >
+                    </ListItem>
+                    <ListItem
+                      header = "Email" 
+                      title="example@example.com"
+                    >
+                    </ListItem>
+                    <ListItem
+                      header = "Birthdate" 
+                      title="08/08/1988"
+                    ></ListItem>
+                    <ListItem
+                      link="#"
+                      header = "Password" 
+                      title="**************"
+                      after="Change"
+                    >
+                    </ListItem>
+                    <ListButton color="red">Deconnexion</ListButton>
+                  </ListGroup>
+                </List>
+              </Block>
             </Page>
           </View>
         </Panel>
-
 
         {/* Right panel with cover effect*/}
         <Panel right cover themeLight>
           <View>
             <Page>
-              <Navbar title="Friends"/>
-              <Block>Right panel content goes here</Block>
+              <Navbar>
+                <NavLeft>
+                  <NavTitle>Friends</NavTitle>
+                </NavLeft>
+                <NavRight>
+                  <Link href="/friendForm/">
+                    <Icon f7="person_badge_plus_fill">
+                    </Icon>
+                  </Link>
+                </NavRight>
+              </Navbar>
+              <Searchbar
+                searchContainer=".search-list"
+                searchIn=".item-title"
+                disableButton={!this.$theme.aurora}
+              ></Searchbar>
+              <List className="searchbar-not-found">
+                <ListItem title="Nothing found" />
+              </List>
+              <List className="search-list searchbar-found">
+                <ListGroup>
+                  <ListItem groupTitle title="Swipe left to delete your friend"></ListItem>
+                  <Friend name="Kevin Tran" pseudo= "TOTO" color= "secondary"></Friend>
+                  <Friend name="Harry Potter" pseudo= "TULIPE" color= "primary"></Friend>
+                </ListGroup>
+              </List>
             </Page>
           </View>
         </Panel>

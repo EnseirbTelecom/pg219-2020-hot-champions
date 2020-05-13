@@ -4,10 +4,6 @@ import image from '../public/presentation.png'
 export default class Marker extends React.Component{
   constructor(props){
     super(props);
-    this.user = {
-      pseudo: "",
-      color: "",
-    };
   }
   render(){
     return (
@@ -15,10 +11,10 @@ export default class Marker extends React.Component{
         <Link panelOpen="right">
           <div
             className="pin bounce"
-            style={{backgroundColor: this.user.color, cursor: 'pointer' }}
-            title={this.user.pseudo}
+            style={{backgroundColor: this.props.color, cursor: 'pointer' }}
+            title={this.props.pseudo}
           />
-          <div className="pulse" />
+          <div className="pulse"/>
         </Link>
       </div>
     );
