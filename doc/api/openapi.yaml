@@ -122,23 +122,23 @@ paths:
         '402':
           description: User already exist
   /user/location:
-    post:
+    get:
       tags:
         - user
       summary: Récupérer position courante de l'utilisateur
-      operationId: addFriends
-      parameters:
-        - name: body
-          in: "body"
+      operationId: getCurrendLocation
+      requestBody:
           description: Object permettant de passer les paramètres du formulaire
           required: true
-          schema:
-            type: object
-            properties: 
-              jwt.token:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  jwt.token:
                     type: string
                     example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODA5MjkyODIsImV4cCI6MTQ4MDkzMjg2OCwibmFtZSI6IlVzZXJuYW1lIn0.gZeuWNbjO8kyEX92AjgX5oLy5qhu6YWTPr6vtYELZQ4
-              
+                  
       responses:
         '200':
           description: Successfull Authentification
@@ -150,18 +150,28 @@ paths:
                   location:
                     type: object
                     properties:
-                      longitude:
+                      lng:
                         type: number
                         example: 54.30
-                      latitude:
+                      lat:
                         type: number
                         example: 60.45
+                  time:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        format: date
+                      hour:
+                        type: string
+                        example: 10h20
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '400':
           description: Request Error
-        '403':
-          description: User not found
+
+        '406':
+          description: No location found
       security:
       - tokenAuth: []
   /friends:
@@ -289,15 +299,21 @@ paths:
                     location:
                       type: object
                       properties:
-                        longitude:
+                        lng:
                           type: number
                           example: 54.30
-                        latitude:
+                        lat:
                           type: number
                           example: 60.45
                     pseudoFriend:
                       type: string
                       example: Bidule48
+                    color:
+                      type: string
+                      example: "#ddf45"
+                    status:
+                      type: bool
+                      example: false
           
         '401':
           $ref: '#/components/responses/UnauthorizedError'

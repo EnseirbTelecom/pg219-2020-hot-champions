@@ -1,6 +1,5 @@
 import React from 'react';
 import{ListItem, Icon, SwipeoutActions, SwipeoutButton} from 'framework7-react';
-import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 
 
 export default class Friend extends React.Component{
@@ -9,11 +8,11 @@ export default class Friend extends React.Component{
     }
     render(){
         return(
-            <ListItem title={this.props.name} swipeout after={this.props.pseudo}>
+            <ListItem title={this.props.pseudo} swipeout>
                 <SwipeoutActions right>
                     <SwipeoutButton delete overswipe confirmText="Are you sure you want to delete this friendship ?">Delete</SwipeoutButton>
                 </SwipeoutActions>
-                <Icon slot="media"><GpsFixedIcon color={this.props.color}></GpsFixedIcon></Icon>
+                <Icon f7="map_pin_ellipse" style={{color:this.props.color}} slot="media"></Icon>
             </ListItem>
         );
     }

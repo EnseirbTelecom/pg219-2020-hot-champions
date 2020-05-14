@@ -20,6 +20,7 @@ import App from '../components/app.jsx';
 
 
 // Init F7 Vue Plugin
+localStorage.setItem("friendClicked", false);
 Framework7.use(Framework7React)
 // Mount React App
 ReactDOM.render(
