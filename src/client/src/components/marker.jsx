@@ -14,6 +14,7 @@ export default class Marker extends React.Component{
   render(){
     return (
       <div>
+        {(this.props.pseudo ? 
         <Link panelOpen="right" onClick={this.clickHandler}>
           <div
             className="pin bounce"
@@ -22,7 +23,18 @@ export default class Marker extends React.Component{
           >
           </div>
           <div className="pulse"/>
+        </Link> :
+        <Link panelOpen="left">
+          <div
+            className="pin bounce"
+            style={{backgroundColor: this.props.color, cursor: 'pointer' }}
+            title={this.props.pseudo}
+          >
+          </div>
+          <div className="pulse"/>
         </Link>
+        )}
+        
       </div>
     );
   }

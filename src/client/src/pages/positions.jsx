@@ -15,7 +15,6 @@ export default class Positions extends React.Component {
   }
 
   componentDidMount() {
-
     this.getArchivedPositions();
     this.setState({archivedPositions: false});
   }

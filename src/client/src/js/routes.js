@@ -4,7 +4,6 @@ import PositionPage from '../pages/positions.jsx';
 import FormPage from '../pages/friend-form.jsx';
 import SignupPage from '../pages/signup.jsx'
 
-import DynamicRoutePage from '../pages/dynamic-route.jsx';
 import LoginPage from '../pages/login-page.jsx';
 import NotFoundPage from '../pages/404.jsx';
 

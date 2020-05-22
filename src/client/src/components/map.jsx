@@ -65,8 +65,8 @@ export default class Map extends React.Component {
       <div style={{height:this.props.height, width:'100%'}}>
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyBzU6vrdmdlct27j-d0WHX8GJ1Yx7LByXM' }}
-          defaultCenter={this.state.center}
-          defaultZoom={this.state.zoom}
+          center={this.state.center}
+          zoom={this.state.zoom}
         >
         {myLocation}
         {friendRendered}
