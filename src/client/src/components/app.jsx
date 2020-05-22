@@ -3,30 +3,21 @@ import { Device }  from 'framework7/framework7-lite.esm.bundle.js';
 import {
   App,
   Panel,
-  Views,
   View,
   Popup,
   Page,
   Navbar,
-  Toolbar,
   NavRight,
   NavLeft,
   NavTitle,
-  NavTitleLarge,
   Link,
   Block,
-  Subnavbar,
-  BlockTitle,
-  LoginScreen,
-  LoginScreenTitle,
   List,
-  Button,
   Icon,
   ListItem,
   ListInput,
   Searchbar,
   ListButton,
-  BlockFooter,
   ListGroup,
   Range,
   Preloader
@@ -35,7 +26,6 @@ import {
 import cordovaApp from '../js/cordova-app';
 import routes from '../js/routes';
 import Friend from './friend'
-import { ListItemSecondaryAction } from '@material-ui/core';
 import Map from './map';
 import API from '../utils/API';
 
@@ -153,7 +143,7 @@ export default class extends React.Component {
       }
       else if (e.response.status === 400 || e.response.status === 401){
         console.log("error");
-        this.$f7router.navigate('/');
+        this.$f7router.navigate('/', {reloadCurrent:true});
       }
     }
   }
@@ -172,7 +162,7 @@ export default class extends React.Component {
       }
       else if (e.response.status === 400 || e.response.status === 401){
         console.log("error");
-        this.$f7router.navigate('/');
+        this.$f7router.navigate('/', {reloadCurrent:true});
       }
     }
   }
@@ -185,7 +175,8 @@ export default class extends React.Component {
       const {status, result} = await API.addLocation(localStorage.getItem("token"),self.state.form);
       if (status===200){
         app.dialog.alert("Current Position Added");
-        router.navigate('/posistions/')
+        this.getMyPosition();
+        router.navigate('/posistions/', {reloadCurrent:true})
       }
     }
     catch(error){
@@ -233,11 +224,11 @@ export default class extends React.Component {
     catch(e){
       if (e.response.status  === 403 || e.response.status  === 407){
         app.dialog.alert("Friend Request or User no longer available")
-        router.navigate('/');
+        router.navigate('/', {reloadCurrent:true});
       }
       else if(e.response.status  === 401|| e.response.status  === 400){
         console.log("error");
-        router.navigate('/');
+        router.navigate('/', {reloadCurrent:true});
       }
     } 
   } 
@@ -258,11 +249,11 @@ export default class extends React.Component {
     catch(e){
       if (e.response.status  === 407){
         app.dialog.alert("Friend Request no longer available")
-        router.navigate('/');
+        router.navigate('/', {reloadCurrent:true});
       }
       else if(e.response.status  === 401 || e.response.status  === 400){
         console.log("error");
-        router.navigate('/');
+        router.navigate('/', {reloadCurrent:true});
       }
     } 
   }
@@ -271,7 +262,7 @@ export default class extends React.Component {
     const self = this;
     const router = self.$f7.views.main.router;
     localStorage.clear();
-    router.navigate('/');
+    router.navigate('/', {reloadCurrent:true});
   }
 
 

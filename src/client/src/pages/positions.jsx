@@ -1,9 +1,7 @@
 import React from 'react';
 import { Page, Navbar, Block, BlockTitle,List,ListItem,ListGroup,Button} from 'framework7-react';
 import Map from '../components/map'
-import Marker from '../components/marker'
 import PositionListing from'../components/position'
-import Position from '../utils/Position'
 
 export default class Positions extends React.Component {
   constructor(props){

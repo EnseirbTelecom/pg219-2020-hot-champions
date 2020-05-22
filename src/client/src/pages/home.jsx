@@ -4,24 +4,13 @@ import {
   Navbar,
   NavLeft,
   NavTitle,
-  NavTitleLarge,
   NavRight,
   Link,
-  Toolbar,
-  Block,
-  BlockTitle,
-  List,
-  ListItem,
-  Row,
   Icon,
   Badge,
-  Col,
-  Button,
   Preloader
 } from 'framework7-react';
 import Map from '../components/map';
-import API from '../utils/API'
-
 
 export default class extends React.Component {  
   constructor(props){

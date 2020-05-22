@@ -1,6 +1,6 @@
 import React from 'react';
 import{ListItem, Icon, SwipeoutActions, SwipeoutButton, Button} from 'framework7-react';
-import API from '../utils/API'
+
 
 
 export default class Friend extends React.Component{

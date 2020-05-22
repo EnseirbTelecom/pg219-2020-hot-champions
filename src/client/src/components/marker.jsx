@@ -1,7 +1,6 @@
 import React from 'react';
 import{Link} from 'framework7-react';
-import Avatar from '@material-ui/core/Avatar';
-import image from '../public/presentation.png'
+
 export default class Marker extends React.Component{
   constructor(props){
     super(props);

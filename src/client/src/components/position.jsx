@@ -1,6 +1,5 @@
 import React from 'react';
 import{ListItem, SwipeoutActions, SwipeoutButton,Button} from 'framework7-react';
-import image from '../public/presentation.png'
 export default class PositionListing extends React.Component{
   constructor(props){
     super(props);
@@ -10,11 +9,14 @@ export default class PositionListing extends React.Component{
         time: this.props.time
     }
   }
+
+
   isArchived=()=>{
     if(!this.state.archived){
-      return (<Button slot="after" fill color="green">Add New One</Button>)
+      return (<Button slot="after" popupOpen="#popup-location" fill color="green">Add New One</Button>)
     }
   }
+
   isArchivable=()=>{
     if(!this.state.archived){
       return (
