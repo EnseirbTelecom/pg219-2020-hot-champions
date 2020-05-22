@@ -18,6 +18,7 @@ console.log("\nConnecté à la bdd bg!");
 module.exports = db;
 
 // Definition des routes
+
 const router = express.Router();
 app.use('/', function(req, res) {
   res.send('hello world');
