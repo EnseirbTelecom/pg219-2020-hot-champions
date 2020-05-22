@@ -79,12 +79,18 @@ export default class extends React.Component {
         }
       },
       renderedMap: false,
+      friends: '',
+      myLocation: '',
+      user: {firstName: "Esteban", lastName: "Estoc", pseudo: "EstebRun",email:"esteban.estoc@enseirb-matmeca.fr", birthDate: new Date("12/12/2001") }//JSON.parse(localStorage.getItem("user"))
     };
   }
 
   componentWillMount(){
-    localStorage.setItem("friends", JSON.stringify([{location: {lat:44, lng:-0.5}, pseudoFriend:"testo", status: true, color:"#997a8d"}, {location: {lat:44.6, lng:-0.57}, pseudoFriend:"polo", status:false, color:"#f0c300"}]));
-    localStorage.setItem("myLocation", JSON.stringify({location:{lat: 44.8333,lng: -0.5667}, time:{date:"12/05/2020", hour:"12h20"}}));
+    let friends = [{location: {lat:44, lng:-0.5}, pseudoFriend:"testo", status: true, color:"#997a8d"}, {location: {lat:44.6, lng:-0.57}, pseudoFriend:"polo", status:false, color:"#f0c300"}];
+    localStorage.setItem("friends", JSON.stringify(friends));
+    let myLocation={location:{lat: 44.8333,lng: -0.5667}, time:{date:"12/05/2020", hour:"12h20"}}
+    localStorage.setItem("myLocation", JSON.stringify(myLocation));
+    this.setState({myLocation:myLocation, friends: friends});
     this.getMyPosition();
     this.getFriends();
     this.setDate();
@@ -93,11 +99,10 @@ export default class extends React.Component {
     }, (error)=>console.log(error));
   }
 
-  
 
   setPosition = (lat, lng) =>{
-    this.setState(state=>(state.form.location.lat = lat, status));
-    this.setState(state=>(state.form.location.lng = lng, status));
+    this.setState(state=>(state.form.location.lat = lat, state));
+    this.setState(state=>(state.form.location.lng = lng, state));
     this.setState({renderedMap:true});
     
   }
@@ -113,24 +118,38 @@ export default class extends React.Component {
     hh = (hh>9 ? '' : '0') + hh;
     let minmin = dateTime.getMinutes();
     minmin = (minmin>9 ? '' : '0') + minmin;
-    this.setState(state=>(state.form.time.date = dd+"/"+mm+"/"+yy, status));
-    this.setState(state=>(state.form.time.hour = hh+"h"+minmin, status));
+    this.setState(state=>(state.form.time.date = dd+"/"+mm+"/"+yy, state));
+    this.setState(state=>(state.form.time.hour = hh+"h"+minmin, state));
+  }
+
+  setBirthDate =()=>{
+    let birthDate = this.state.user.birthDate;
+    let mm = birthDate.getMonth() + 1;
+    mm = (mm>9 ? '' : '0') + mm;
+    let dd = birthDate.getDate()
+    dd = (dd>9 ? '' : '0') + dd;
+    let yy = birthDate.getFullYear();
+    
+    return (dd+"/"+mm+"/"+yy);
+
   }
 
   displayDate = () =>{
     return this.state.form.time.date+" at "+this.state.form.time.hour;
   } 
 
-  getFriends =async()=>{
+  getFriends = async() =>{
     try{
       const {status, friends} = await API.getFriends(localStorage.getItem("token"));
       if (status===200){
         localStorage.setItem("friends", friends);
+        this.setState({friends:friends})
       }
     }
     catch(e){
       if (e.response.status ===403){
         localStorage.setItem("friends", false);
+        this.setState({friends:false})
       }
       else if (e.response.status === 400 || e.response.status === 401){
         console.log("error");
@@ -143,11 +162,13 @@ export default class extends React.Component {
       const {status, data} = await API.getCurrentLocation(localStorage.getItem("token"));
       if (status===200){
         localStorage.setItem("myLocation", data.location);
+        this.setState({myLocation:data.location})
       }
     }
     catch(e){
       if (e.response.status ===406){
         localStorage.setItem("myLocation", false);
+        this.setState({friends:false});
       }
       else if (e.response.status === 400 || e.response.status === 401){
         console.log("error");
@@ -175,14 +196,75 @@ export default class extends React.Component {
   }
 
   renderFriends = () =>{
-    let friends = JSON.parse(localStorage.getItem("friends"));
+    let friends = this.state.friends;
     let friendsRendered = [];
     if (friends!==false){
       friendsRendered = friends.map((element,i)=>
-        <Friend key={i} pseudo={element.pseudoFriend} color={element.color}></Friend>
+        (element.status ? <Friend key={i} pseudo={element.pseudoFriend} action={this.onDeleted.bind(this)} color={element.color}></Friend> : null)
       );
     }
     return friendsRendered;
+  }
+
+  renderFriendsRequest = ()=>{
+    let friends = this.state.friends;
+    let friendsRendered = [];
+    let list = [<ListItem groupTitle title="Friend Requests"></ListItem>];
+    if (friends!==false){
+      friendsRendered = friends.map((element,i)=>
+        (!element.status ? <Friend key={i} pseudo={element.pseudoFriend} handleClick={this.handleClick.bind(element.email)} action={this.onDeleted.bind(element.email)} request={true} color={element.color}></Friend> : null)
+      );
+    }
+    return list.concat(friendsRendered);
+  }
+
+  onDeleted = async (email) =>{
+    const self = this;
+    const app = self.$f7;
+    const router = app.views.main.router;
+    try{
+      const {status, data} = await API.deleteFriend(localStorage.getItem("token"), email)
+      if(status === 200){
+        app.dialog.alert("Friend Deleted");
+        this.getFriends();
+        router.refreshPage('/');
+      }
+    }
+    catch(e){
+      if (e.response.status  === 403 || e.response.status  === 407){
+        app.dialog.alert("Friend Request or User no longer available")
+        router.navigate('/');
+      }
+      else if(e.response.status  === 401|| e.response.status  === 400){
+        console.log("error");
+        router.navigate('/');
+      }
+    } 
+  } 
+
+  handleClick = async (email) =>{
+    const self = this;
+    const app = self.$f7;
+    const router = app.views.main.router;
+    app.dialog.alert("Friend Added");
+    try{
+      const {status, data} = await API.acceptFriend(localStorage.getItem("token"), email)
+      if(status === 200){
+        app.dialog.alert("Friend Added");
+        this.getFriends();
+        router.refreshPage('/');
+      }
+    }
+    catch(e){
+      if (e.response.status  === 407){
+        app.dialog.alert("Friend Request no longer available")
+        router.navigate('/');
+      }
+      else if(e.response.status  === 401 || e.response.status  === 400){
+        console.log("error");
+        router.navigate('/');
+      }
+    } 
   }
 
   signout = () =>{
@@ -201,10 +283,9 @@ export default class extends React.Component {
       }
       // Call F7 APIs here
       this.$f7.on('panelOpened', ()=>{
-        let searchbar= this.$f7.searchbar.get('.searchbar');
+        let searchbar = this.$f7.searchbar.get('.searchbar');    
         if (localStorage.getItem("friendClicked")!=="false"){
           searchbar.search(localStorage.getItem("friendClicked"));
-
         }
       })
     });
@@ -212,6 +293,7 @@ export default class extends React.Component {
 
   render() {
     const renderedFriends = this.renderFriends();
+    const renderedFriendRequests = this.renderFriendsRequest();
     return (
       <App params={ this.state.f7params } themeLight>
         {/* Left panel with cover effect*/}
@@ -228,31 +310,29 @@ export default class extends React.Component {
                     <ListItem groupTitle title="My information" ></ListItem>
                     <ListItem
                       header = "First Name" 
-                      title="Titi"
+                      title={this.state.user.firstName}
                     ></ListItem>
                     <ListItem
                       header = "Last Name" 
-                      title="Tarent"
+                      title={this.state.user.lastName}
                     ></ListItem>
                     <ListItem
                       header = "Pseudo" 
-                      title="totodu46"
+                      title={this.state.user.pseudo}
                     >
                     </ListItem>
                     <ListItem
                       header = "Email" 
-                      title="example@example.com"
+                      title={this.state.user.email}
                     >
                     </ListItem>
                     <ListItem
                       header = "Birthdate" 
-                      title="08/08/1988"
+                      title={this.setBirthDate()}
                     ></ListItem>
                     <ListItem
-                      link="#"
                       header = "Password" 
                       title="**************"
-                      after="Change"
                     >
                     </ListItem>
                     <ListButton color="red" onClick={this.signout.bind(this)}>Sign Out</ListButton>
@@ -285,9 +365,17 @@ export default class extends React.Component {
               <List className="searchbar-not-found">
                 <ListItem title="Nothing found" />
               </List>
+              <List>
+                <ListItem title = "Swipe to delete"><Icon f7="arrow_right_arrow_left" slot="media" color="red"></Icon></ListItem>
+              </List>
+              <List inset>
+                <ListGroup>
+                  {renderedFriendRequests}
+                </ListGroup>
+              </List>
               <List inset className="search-list searchbar-found">
                 <ListGroup>
-                  <ListItem groupTitle title="Swipe left to delete"></ListItem>
+                  <ListItem groupTitle title="Friends"></ListItem>
                   {renderedFriends}
                 </ListGroup>
               </List>

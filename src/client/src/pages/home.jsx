@@ -23,8 +23,19 @@ import API from '../utils/API'
 
 
 export default class extends React.Component {  
+  constructor(props){
+    super(props)
+    this.state={
+      friends:JSON.parse(localStorage.getItem("friends")),
+    }
+  }
+
+  componentWillUpdate() {
+    this.setState({friends:JSON.parse(localStorage.getItem("friends"))})
+  }
+
   renderBadge = () =>{
-    let friends = JSON.parse(localStorage.getItem("friends"));
+    let friends = this.state.friends
     let friendRequest = 0;
     friends.forEach((element)=>{
       if (!element.status){
@@ -41,7 +52,7 @@ export default class extends React.Component {
 
   render(){
     const myLocation = JSON.parse(localStorage.getItem("myLocation")).location;
-    const friends = JSON.parse(localStorage.getItem("friends"));
+    const friends = this.state.friends;
     const badge = this.renderBadge()
     return(
       <Page name="home">
@@ -62,7 +73,7 @@ export default class extends React.Component {
           </NavRight>
         </Navbar>
         {/* Page content */}
-        <Map height="100%" center={myLocation}  friends = {friends}/>
+        <Map height="100%" center={myLocation} friends = {friends}/>
       </Page>
     );
   } 

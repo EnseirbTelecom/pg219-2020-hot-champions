@@ -58,6 +58,18 @@ paths:
                       pseudo:
                         type: string
                         example: TotoDu45
+                      email: 
+                        type: string
+                        example: example@example.fr
+                      firstName:
+                        type: string
+                        example: Toto
+                      lastName:
+                        type: string
+                        example: Tata
+                      birthDate:
+                        type: string
+                        format: date
         '403':
           description: User not found
         '405':
@@ -119,6 +131,18 @@ paths:
                       pseudo:
                         type: string
                         example: TotoDu45
+                      email: 
+                        type: string
+                        example: example@example.fr
+                      firstName:
+                        type: string
+                        example: Toto
+                      lastName:
+                        type: string
+                        example: Tata
+                      birthDate:
+                        type: string
+                        format: date
         '402':
           description: User already exist
   /user/location:
