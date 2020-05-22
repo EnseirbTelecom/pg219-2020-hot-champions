@@ -9,29 +9,26 @@ export default class Map extends React.Component {
       lng: -0.5667
     },
     zoom: 11,
-    height:'80vh'
+    height:'80vh',
+    me: {
+      lat: 44.8333,
+      lng: -0.5667
+    }
   };
 
   state={
     center: this.props.center,
     zoom: this.props.zoom,
+    height: this.props.height,
     friends: this.props.friends,
-  }
-
-  componentWillMount(){
-    if (this.state.center === false){
-      this.setState({center: {
-        lat: 44.8333,
-        lng: -0.5667
-      }});
-    }
+    me: this.props.me
   }
 
   renderMyLocation = () =>{
-    if (this.props.center !== false){
+    if (this.props.me !== false){
       return (<Marker
-          lat={this.state.center.lat}
-          lng={this.state.center.lng}
+          lat={this.state.me.lat}
+          lng={this.state.me.lng}
           name="Me"
           color="Gray"
         >
@@ -43,14 +40,15 @@ export default class Map extends React.Component {
   renderFriends = () =>{
     let friendRendered = [];
     if (this.state.friends!==false){
-      friendRendered = this.state.friends.map((element,i)=>
-        <Marker
+      friendRendered = this.state.friends.map((element,i)=> {
+        return element.status===1 ? <Marker
           key={i}
           lat={element.location.lat}
           lng={element.location.lng}
           pseudo={element.pseudoFriend}
           color={element.color}
-        ></Marker>
+        ></Marker> : null
+      }
       );
     }
     return friendRendered;
@@ -62,7 +60,7 @@ export default class Map extends React.Component {
     const myLocation = this.renderMyLocation();
     return (
       // Important! Always set the container height explicitly
-      <div style={{height:this.props.height, width:'100%'}}>
+      <div style={{height:this.state.height, width:'100%'}}>
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyBzU6vrdmdlct27j-d0WHX8GJ1Yx7LByXM' }}
           center={this.state.center}

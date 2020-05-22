@@ -9,9 +9,10 @@ import NotFoundPage from '../pages/404.jsx';
 
 import API from '../utils/API'
 
-function securedRoute(path, component) {
+function securedRoute(path, component, name) {
   return {
     path,
+    name, 
     async(to, from, resolve, reject) {
       if (!API.isAuth()) {
         resolve({ component: component });
@@ -23,9 +24,10 @@ function securedRoute(path, component) {
 }
 
 var routes = [
-  securedRoute('/',HomePage),
-  securedRoute('/positions/', PositionPage),
-  securedRoute('/friend-form/',FormPage),
+  securedRoute('/',HomePage, "home"),
+  securedRoute('/home/:lat/:lng',HomePage, "homeFriend"),
+  securedRoute('/positions/', PositionPage, "positions"),
+  securedRoute('/friend-form/',FormPage, "formpage"),
 // {
 //   path: '/',
 //   component: HomePage,

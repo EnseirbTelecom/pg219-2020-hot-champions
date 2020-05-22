@@ -86,7 +86,7 @@ export default class extends React.Component {
   }
 
   componentWillMount(){
-    let friends = [{location: {lat:44, lng:-0.5}, pseudoFriend:"testo", status: true, color:"#997a8d"}, {location: {lat:44.6, lng:-0.57}, pseudoFriend:"polo", status:false, color:"#f0c300"}];
+    let friends = [{location: {lat:44, lng:-0.5}, pseudoFriend:"testo", status: 1, color:"#997a8d"}, {location: {lat:44.6, lng:-0.57}, pseudoFriend:"polo", status:0, color:"#f0c300"}];
     localStorage.setItem("friends", JSON.stringify(friends));
     let myLocation={location:{lat: 44.8333,lng: -0.5667}, time:{date:"12/05/2020", hour:"12h20"}}
     localStorage.setItem("myLocation", JSON.stringify(myLocation));
@@ -200,7 +200,7 @@ export default class extends React.Component {
     let friendsRendered = [];
     if (friends!==false){
       friendsRendered = friends.map((element,i)=>
-        (element.status ? <Friend key={i} pseudo={element.pseudoFriend} action={this.onDeleted.bind(this)} color={element.color}></Friend> : null)
+        (element.status===1 ? <Friend key={i} pseudo={element.pseudoFriend} location={element.location} action={this.onDeleted.bind(this)} color={element.color}></Friend> : null)
       );
     }
     return friendsRendered;
@@ -212,7 +212,7 @@ export default class extends React.Component {
     let list = [<ListItem groupTitle title="Friend Requests"></ListItem>];
     if (friends!==false){
       friendsRendered = friends.map((element,i)=>
-        (!element.status ? <Friend key={i} pseudo={element.pseudoFriend} handleClick={this.handleClick.bind(element.email)} action={this.onDeleted.bind(element.email)} request={true} color={element.color}></Friend> : null)
+        (element.status===0 || element.status===2 ? <Friend key={i} pseudo={element.pseudoFriend} handleClick={this.handleClick.bind(element.email)} action={this.onDeleted.bind(element.email)} request={element.status}></Friend> : null)
       );
     }
     return list.concat(friendsRendered);
