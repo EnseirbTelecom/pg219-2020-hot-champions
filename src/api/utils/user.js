@@ -1,4 +1,8 @@
+const mongoose = require("mongoose");
+var db = require('../schema/mongoose');
+
 function inscription(req,res){
+    console.log("je m'inscris");
     const user = {
         "firstName" : req.body.firstName,
         "email" : req.body.email,
@@ -8,12 +12,12 @@ function inscription(req,res){
         "birthDate" : req.body.birthDate
     }
     if(db.find(req.body.email)){
-        return res.status(402).json({ error: "User already exist." })
+        res.status(402).json({ error: "User already exist." })
     }else{
         db.insertOne(user)
             .then(res.status(404).json({ error: "Entity not found." }))
             .catch(err => console.log("err" + err))
-        return res.status(200).json({user})
+        res.status(200).json({user})
     }
 }
 

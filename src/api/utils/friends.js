@@ -1,7 +1,3 @@
-app.get('/friendList', friends.friendList);
-app.put('/acceptFriend',friends.acceptFriend);
-app.post('/askFriend', friends.askFriend);
-app.delete('/deleteFriend',friends.deleteFriend);
 
 function friendList(req,res){
     db.find({email: req.body.email},{friends:1}, function(err, friend){

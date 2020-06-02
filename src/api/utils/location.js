@@ -1,7 +1,4 @@
-app.get('/history', location.history);
-app.put('/archiverLocation', location.archiverLocation);
-app.post('/addLoaction', location.addLocation);
-app.delete('/deleteLocation',location.deleteLocation);
+const mongoose = require("mongoose");
 
 function history(req,res){
     if(db.find({email: req.body.email},{location:1})){
