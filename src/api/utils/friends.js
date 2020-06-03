@@ -1,7 +1,7 @@
 const Users = require("../schema/mongoose.js") 
 
 function friendList(req,res){
-    Users.find({email: 'toto@email.fr' /*req.body.email*/},{friends:1}, function(err, friend){
+    Users.find({email: req.body.email},{friends:1}, function(err, friend){
         if (err){
             res.status(403).json({error: "User not found."})
         }

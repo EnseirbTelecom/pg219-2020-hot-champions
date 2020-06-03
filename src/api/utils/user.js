@@ -3,14 +3,14 @@ const Users = require("../schema/mongoose.js")
 function inscription(req,res){
     console.log("je m'inscris");
     const user = {
-        "firstName" : 'jo',// req.body.firstName,
-        "email" : 'toto@email.fr', //req.body.email,
-        "password" : 'pass' ,//base64UrlEncode('pass' /*req.body.password*/),
-        "lastName" : 'toto', //req.body.lastName,
-        "pseudo" : 'totodu12', //req.body.pseudo,
-        "birthDate" : '12/02/2000', //req.body.birthDate
+        "firstName" : req.body.firstName,
+        "email" : req.body.email,
+        "password" : base64UrlEncode('pass' /*req.body.password*/),
+        "lastName" : req.body.lastName,
+        "pseudo" : req.body.pseudo,
+        "birthDate" : req.body.birthDate
     }
-    if(res = Users.find('toto@email.fr' /*req.body.email*/)){
+    if(res = Users.find(req.body.email)){
         return res.status(402).json({ error: "User already exist." })
     }else{
         Users.insertOne(user)
