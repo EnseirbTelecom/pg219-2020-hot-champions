@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const Users = require("../schema/mongoose.js")
 
 function history(req,res){
-    if(db.find({email: req.body.email},{location:1})){
-        res.status(200).json(db.find({email: req.body.email},{location:1}));
+    if(Users.find({email: req.body.email},{location:1})){
+        res.status(200).json(Users.find({email: req.body.email},{location:1}));
     }
     else{
         res.status(406).json({error: "No location found"})
@@ -10,7 +10,7 @@ function history(req,res){
 } 
 
 function archiverLocation(req,res){
-    db.find({email : req.body.email},{status = true}, function(err, user){
+    Users.find({email : req.body.email},{status = true}, function(err, user){
         if (err){
             res.status(406).json({error: "No location found"})
         }
@@ -34,7 +34,7 @@ function addLocation(req,res){
     newLocation.longitude = req.body.longitude;
     newLocation.time = req.body.time;
     newLocation.status = req.body.status;
-    db.update({email: req.body.email},{$set: {location :newLocation}}, function(err, user){
+    Users.update({email: req.body.email},{$set: {location :newLocation}}, function(err, user){
         if (err){
             res.status(400).json({error: "Request error."})
         }
@@ -46,3 +46,8 @@ function addLocation(req,res){
 
 function deleteLocation(req,res){
 }
+
+exports.history = history;
+exports.archiverLocation = archiverLocation;
+exports.addLocation = addLocation;
+exports.deleteLocation = deleteLocation;

@@ -6,16 +6,16 @@ const userSchema = mongoose.Schema({
     firstName : String,
     lastName : String,
     pseudo : String,
-    friends : {
+    friends : [{
         email : String,
         status : Number,
-    },
-    location : {
+    }],
+    location : [{
         longitude : Number,
         latitude : Number,
         time : {Date, Number},
         status : Boolean,
-    }
+    }]
 });
 
 module.exports = mongoose.model("user", userSchema);

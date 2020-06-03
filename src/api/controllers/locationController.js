@@ -1,4 +1,4 @@
-const location = require('./location.js');
+const location = require('./utils/location.js');
 
 module.exports = function(app){
     app.get('/history', location.history);

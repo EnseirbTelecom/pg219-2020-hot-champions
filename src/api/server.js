@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const app = express();
 
 const user = require('./utils/user.js');
+const friend = require('./utils/friends.js');
 
 const port = 8800;
 app.listen(port);
-console.log("Listening on port", port);
+console.log("Listening on port", port); 
 
 // Connexion à notre base de données
 mongoose.connect("mongodb://localhost:27017", { useNewUrlParser: true,  useUnifiedTopology: true } );
@@ -16,6 +17,10 @@ db.once('open', function() {
 console.log("\nConnecté à la bdd !");
 });
 module.exports = db;
+
+var req;
+var res;
+friend.friendList(req,res);
 
 
 // Definition des routes

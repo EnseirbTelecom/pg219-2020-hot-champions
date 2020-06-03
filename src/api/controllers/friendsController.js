@@ -1,4 +1,4 @@
-const friends = require('./friends.js');
+const friends = require('./utils/friends.js');
 
 module.exports = function(app){
     app.get('/friendList', friends.friendList);

@@ -1,29 +1,29 @@
-const mongoose = require("mongoose");
-var db = require('../schema/mongoose');
+const Users = require("../schema/mongoose.js") 
 
 function inscription(req,res){
     console.log("je m'inscris");
     const user = {
-        "firstName" : req.body.firstName,
-        "email" : req.body.email,
-        "password" : base64UrlEncode(req.body.password),
-        "lastName" : req.body.lastName,
-        "pseudo" : req.body.pseudo,
-        "birthDate" : req.body.birthDate
+        "firstName" : 'jo',// req.body.firstName,
+        "email" : 'toto@email.fr', //req.body.email,
+        "password" : 'pass' ,//base64UrlEncode('pass' /*req.body.password*/),
+        "lastName" : 'toto', //req.body.lastName,
+        "pseudo" : 'totodu12', //req.body.pseudo,
+        "birthDate" : '12/02/2000', //req.body.birthDate
     }
-    if(db.find(req.body.email)){
-        res.status(402).json({ error: "User already exist." })
+    if(res = Users.find('toto@email.fr' /*req.body.email*/)){
+        return res.status(402).json({ error: "User already exist." })
     }else{
-        db.insertOne(user)
+        Users.insertOne(user)
             .then(res.status(404).json({ error: "Entity not found." }))
             .catch(err => console.log("err" + err))
-        res.status(200).json({user})
+        console.log('je suis inscrit')
+        return res.status(200).json({user})
     }
 }
 
 function connexion(req,res){
-    if(db.findOne(req.body.email)){
-        pass = base64UrlDecode(db.password)
+    if(await Users.findOne(req.body.email)){
+        pass = base64UrlDecode(Users.password)
         if(req.body.password == pass){
             return res.status(200).json({user})
         }else{
@@ -35,8 +35,8 @@ function connexion(req,res){
 }
 
 function userLocation(req,res){
-    if(db.find(req.body.email)){
-        if(db.find({location: true}, {location: 1})){
+    if(await Users.find(req.body.email)){
+        if(await Users.find({location: true}, {location: 1})){
             res.status(200).json(location)
         }
         else{
@@ -46,3 +46,7 @@ function userLocation(req,res){
         res.status(403).json({error: "user not found"})
     }
 }
+
+exports.inscription = inscription;
+exports.connexion = connexion;
+exports.userLocation = userLocation;
