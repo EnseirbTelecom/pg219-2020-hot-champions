@@ -18,10 +18,6 @@ console.log("\nConnecté à la bdd !");
 });
 module.exports = db;
 
-var req;
-var res;
-friend.friendList(req,res);
-
 
 // Definition des routes
 
