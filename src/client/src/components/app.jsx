@@ -83,10 +83,6 @@ export default class extends React.Component {
     this.setState({myLocation:myLocation, friends: friends});
     this.getMyPosition();
     this.getFriends();
-    this.setDate();
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.setPosition(position.coords.latitude, position.coords.longitude);
-    }, (error)=>console.log(error));
   }
 
 
@@ -279,6 +275,12 @@ export default class extends React.Component {
           searchbar.search(localStorage.getItem("friendClicked"));
         }
       })
+      this.$f7.on('popupOpen', ()=>{
+        this.setDate();
+      })
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.setPosition(position.coords.latitude, position.coords.longitude);
+      }, (error)=>console.log(error));
     });
   }
 
@@ -302,19 +304,27 @@ export default class extends React.Component {
                     <ListItem
                       header = "First Name" 
                       title={this.state.user.firstName}
+                      tooltip	= {this.state.user.firstName}
+                      tooltipTrigger="hover"
                     ></ListItem>
                     <ListItem
                       header = "Last Name" 
                       title={this.state.user.lastName}
+                      tooltip	= {this.state.user.lastName}
+                      tooltipTrigger="hover"
                     ></ListItem>
                     <ListItem
                       header = "Pseudo" 
                       title={this.state.user.pseudo}
+                      tooltip	= {this.state.user.pseudo}
+                      tooltipTrigger="hover"
                     >
                     </ListItem>
                     <ListItem
                       header = "Email" 
                       title={this.state.user.email}
+                      tooltip	= {this.state.user.email}
+                      tooltipTrigger="hover"
                     >
                     </ListItem>
                     <ListItem
@@ -359,7 +369,7 @@ export default class extends React.Component {
               <List>
                 <ListItem title = "Swipe to delete"><Icon f7="arrow_right_arrow_left" slot="media" color="red"></Icon></ListItem>
               </List>
-              <List inset>
+              <List inset className="search-list searchbar-found">
                 <ListGroup>
                   {renderedFriendRequests}
                 </ListGroup>
@@ -388,8 +398,8 @@ export default class extends React.Component {
                   <Link popupClose>Close</Link>
                 </NavRight>
               </Navbar>
+              {this.state.renderedMap ? <Map height = "30vh" friends={false} zoom={15} center={{lat: this.state.form.location.lat, lng: this.state.form.location.lng}} me={{lat: this.state.form.location.lat, lng: this.state.form.location.lng}}></Map> :  <Block className="text-align-center"><Preloader size={42}></Preloader></Block>}
               <Block>
-                {this.state.renderedMap ? <Map height = "30vh" friends={false} zoom={15} center={{lat: this.state.form.location.lat, lng: this.state.form.location.lng}}></Map> :  <Preloader></Preloader>}
                 <List noHairlinesMd form>
                   <ListItem header="Latitude" title={this.state.form.location.lat}></ListItem>
                   <ListItem header="Longitude" title={this.state.form.location.lng}></ListItem>

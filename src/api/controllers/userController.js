@@ -1,4 +1,4 @@
-const user = require('./utils/user.js');
+const user = require('../utils/user.js');
 
 module.exports = function(app){
     app.get('/connexion', user.connexion);

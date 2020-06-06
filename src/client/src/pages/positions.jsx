@@ -63,7 +63,7 @@ export default class Positions extends React.Component {
     return(
       <Page name="positions">
         <Navbar title="Positions" backLink="Back" />
-        <Map height="50vh" zoom={13} friends={false} center={this.state.currentPosition.location} ></Map>
+        <Map height="50vh" zoom={13} friends={false} center={this.state.currentPosition.location} me={this.state.currentPosition.location}></Map>
         <Block>
           <BlockTitle>Swipe right to archive, swipe left to delete</BlockTitle>
           <List>

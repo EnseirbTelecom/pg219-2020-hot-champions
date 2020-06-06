@@ -1,25 +1,26 @@
 const Users = require("../schema/mongoose.js") 
 
-function friendList(req,res){
+async function friendList(req,res){
     Users.find({email: req.body.email},{friends:1}, function(err, friend){
         if (err){
-            res.status(403).json({error: "User not found."})
+            return res.status(403).json({error: "User not found."})
         }
         else{
-            res.status(200).json(friend)
+            return res.status(200).json(friend)
         }
     })
 }  
 
-function acceptFriend(req,res){
+async function acceptFriend(req,res){
     newFriend.email = req.body.email;
     newFriend.status = 1;
     Users.find({id_: req.body.id}, function(err, user){
         if (err){
-            res.status(403).json({error: "User not found."})
+            return res.status(403).json({error: "User not found."})
         }
         else{
             Users.friend.upsert(friend, newFriend, true)
+            return ...
         }
     })
 }
