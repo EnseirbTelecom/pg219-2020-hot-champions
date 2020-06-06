@@ -45,6 +45,15 @@ function addLocation(req,res){
 } 
 
 function deleteLocation(req,res){
+    Users.find({id_: req.body.id}, function(err, user){
+        if (err){
+            res.status(403).json({error: "User not found."})
+        }
+        else{
+            Users.location.update({ _id: req.body.id }, { $pull: { lat: req.body.lat , long: req.body.lat} })
+        }
+    })
+        
 }
 
 exports.history = history;

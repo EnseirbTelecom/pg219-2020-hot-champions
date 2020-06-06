@@ -52,6 +52,15 @@ function askFriend(req,res){
 } 
 
 function deleteFriend(req,res){
+    Users.find({id_: req.body.id}, function(err, user){
+        if (err){
+            res.status(403).json({error: "User not found."})
+        }
+        else{
+            Users.friends.update({ _id: req.body.id }, { $pull: { email: req.body.email } })
+        }
+    })
+    
 }
 
 

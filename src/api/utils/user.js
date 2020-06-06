@@ -5,12 +5,12 @@ function inscription(req,res){
     const user = {
         "firstName" : req.body.firstName,
         "email" : req.body.email,
-        "password" : base64UrlEncode('pass' /*req.body.password*/),
+        "password" : base64UrlEncode(req.body.password),
         "lastName" : req.body.lastName,
         "pseudo" : req.body.pseudo,
         "birthDate" : req.body.birthDate
     }
-    if(res = Users.find(req.body.email)){
+    if(Users.find(req.body.email)){
         return res.status(402).json({ error: "User already exist." })
     }else{
         Users.insertOne(user)
@@ -22,7 +22,7 @@ function inscription(req,res){
 }
 
 function connexion(req,res){
-    if(await Users.findOne(req.body.email)){
+    if(Users.findOne(req.body.email)){
         pass = base64UrlDecode(Users.password)
         if(req.body.password == pass){
             return res.status(200).json({user})
@@ -35,8 +35,8 @@ function connexion(req,res){
 }
 
 function userLocation(req,res){
-    if(await Users.find(req.body.email)){
-        if(await Users.find({location: true}, {location: 1})){
+    if(Users.find(req.body.email)){
+        if(Users.find({location: true}, {location: 1})){
             res.status(200).json(location)
         }
         else{
