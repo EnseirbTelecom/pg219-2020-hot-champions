@@ -1,27 +1,27 @@
 const Users = require("../schema/mongoose.js")
 
-function history(req,res){
-    if(Users.find({email: req.body.email},{location:1})){
-        res.status(200).json(Users.find({email: req.body.email},{location:1}));
+async function history(req,res){
+    if(await Users.find({email: req.body.email},{location:1})){
+        return res.status(200).json(Users.find({email: req.body.email},{location:1}));
     }
     else{
-        res.status(406).json({error: "No location found"})
+        return res.status(406).json({error: "No location found"})
     }
 } 
 
-function archiverLocation(req,res){
-    Users.find({email : req.body.email},{status = true}, function(err, user){
+async function archiverLocation(req,res){
+    await Users.find({email : req.body.email},{status = true}, function(err, user){
         if (err){
-            res.status(406).json({error: "No location found"})
+            return res.status(406).json({error: "No location found"})
         }
         else{
             user.location.status = false; 
             user.save(function(err){
                 if (err) {
-                    res.status(400).json({error: "Request Error"});
+                    return res.status(400).json({error: "Request Error"});
                 }
                 else{
-                    res.status(200).json({user})
+                    return res.status(200).json({user})
                 }
             })
         }
@@ -29,28 +29,29 @@ function archiverLocation(req,res){
 
 }
 
-function addLocation(req,res){
+async function addLocation(req,res){
     newLocation.latitude = req.body.latitude;
     newLocation.longitude = req.body.longitude;
     newLocation.time = req.body.time;
     newLocation.status = req.body.status;
-    Users.update({email: req.body.email},{$set: {location :newLocation}}, function(err, user){
+    await Users.update({email: req.body.email},{$set: {location :newLocation}}, function(err, user){
         if (err){
-            res.status(400).json({error: "Request error."})
+            return res.status(400).json({error: "Request error."})
         }
         else{
-            res.status(200).json({user})
+            return res.status(200).json({user})
         }
     })
 } 
 
-function deleteLocation(req,res){
-    Users.find({id_: req.body.id}, function(err, user){
+async function deleteLocation(req,res){
+    await Users.find({id_: req.body.id}, async function(err, user){
         if (err){
-            res.status(403).json({error: "User not found."})
+            return res.status(403).json({error: "User not found."})
         }
         else{
-            Users.location.update({ _id: req.body.id }, { $pull: { lat: req.body.lat , long: req.body.lat} })
+            await Users.location.update({ _id: req.body.id }, { $pull: { lat: req.body.lat , long: req.body.lat} })
+            return res.status(200)
         }
     })
         

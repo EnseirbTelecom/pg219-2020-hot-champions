@@ -1,7 +1,7 @@
 const Users = require("../schema/mongoose.js") 
 
 async function friendList(req,res){
-    Users.find({email: req.body.email},{friends:1}, function(err, friend){
+    await Users.find({email: req.body.email},{friends:1}, function(err, friend){
         if (err){
             return res.status(403).json({error: "User not found."})
         }
@@ -14,36 +14,36 @@ async function friendList(req,res){
 async function acceptFriend(req,res){
     newFriend.email = req.body.email;
     newFriend.status = 1;
-    Users.find({id_: req.body.id}, function(err, user){
+    await Users.find({id_: req.body.id}, async function(err, user){
         if (err){
             return res.status(403).json({error: "User not found."})
         }
         else{
-            Users.friend.upsert(friend, newFriend, true)
-            return ...
+            await Users.friend.upsert(friend, newFriend, true)
+            return res.status(200)
         }
     })
 }
 
-function askFriend(req,res){
-    Users.find({email: req.body.emailFriend}, function(err){
+async function askFriend(req,res){
+    await Users.find({email: req.body.emailFriend}, async function(err){
         if(err){
-            res.status(403).json({error: "User not found."})
+            return res.status(403).json({error: "User not found."})
         }
         else{
             newFriend.email = req.body.emailFriend;
             newFriend.status = 0;
-            Users.find({email: req.body.email}, function(err, user){
+            await Users.find({email: req.body.email}, async function(err, user){
                 if (err){
-                    res.status(403).json({error: "User not found."})
+                    return res.status(403).json({error: "User not found."})
                 }
                 else{
-                    Users.update({email: req.body.email},{$set: {friends :newFriend}}, function(err, user){
+                    await Users.update({email: req.body.email},{$set: {friends :newFriend}}, function(err, user){
                         if (err){
-                            res.status(400).json({error: "Request error."})
+                            return res.status(400).json({error: "Request error."})
                         }
                         else{
-                            res.status(200).json({user})
+                            return res.status(200).json({user})
                         }
                     })
                 }
@@ -52,16 +52,16 @@ function askFriend(req,res){
     })
 } 
 
-function deleteFriend(req,res){
-    Users.find({id_: req.body.id}, function(err, user){
+async function deleteFriend(req,res){
+    await Users.find({id_: req.body.id}, async function(err, user){
         if (err){
-            res.status(403).json({error: "User not found."})
+            return res.status(403).json({error: "User not found."})
         }
         else{
-            Users.friends.update({ _id: req.body.id }, { $pull: { email: req.body.email } })
+            await Users.friends.update({ _id: req.body.id }, { $pull: { email: req.body.email } })
+            return res.status(200)
         }
     })
-    
 }
 
 
