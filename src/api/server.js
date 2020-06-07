@@ -25,9 +25,7 @@ module.exports = db;
 
 const user = require("./utils/user.js") 
 const friend = require("./utils/friends.js") 
-const location = require("./utils/friends.js") 
-
-user.connexion();
+const location = require("./utils/location.js") 
 
 // Definition des routes
 
