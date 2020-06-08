@@ -1,8 +1,10 @@
 const Users = require("../schema/mongoose.js")
 
 async function friendList(req,res){
-    await Users.find({email:req.body.email},{friends:1}, function(err, friend){//email: "max@gmail.com"},{friends:1}, function(err, friend){
-        if (err){
+    const us = await Users.find({email : req.body.email});
+    await Users.find({email : req.body.email},{friends:1}, function(err, friend){//email: "max@gmail.com"},{friends:1}, function(err, friend){
+        console.log("friends: " + us)
+        if (us.length == 0){
             return res.status(403).json({error: "User not found."})
             //console.log("User not found")
         }
