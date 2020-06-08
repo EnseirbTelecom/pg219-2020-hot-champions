@@ -3,12 +3,20 @@ const jwt = require("jwt-simple")
 
 async function inscription(req,res){
     console.log("je m'inscris");
+    const user = {
+        "firstName" : req.body.firstName,
+        "email" : req.body.email,
+        "password" : base64UrlEncode(req.body.password),
+        "lastName" : req.body.lastName,
+        "pseudo" : req.body.pseudo,
+        "birthDate" : req.body.birthDate
+    }
     //const user = jwt.decode(req.body.user)
     const email = req.body.email;
     const us = await Users.find({email: email})
     if(us.length == 0){
         await Users.create(user)
-            //.then(res.status(404).json({ error: "Entity not found." }))
+            .then(res.status(404).json({ error: "Entity not found." }))
             .catch(err => console.log("err" + err))
         return res.status(200).json({user})
     }else{

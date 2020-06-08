@@ -18,7 +18,7 @@ async function archiverLocation(req,res){
             return res.status(406).json({error: "No location found"})
         }
         else{
-            await Users.update({email: req.body.email, status: true},{$set: {status: false}}, function(err, user){
+            await Users.update({email: req.body.email, location: {status: true}},{$set: {location:{status: false}}}, function(err, user){
                 if (err) {
                     return res.status(400).json({error: "Request Error"});
                 }
@@ -53,7 +53,7 @@ async function deleteLocation(req,res){
             return res.status(403).json({error: "User not found."})
         }
         else{
-            await Users.update({ email: req.body.email }, { $pull: { lat: req.body.lat , long: req.body.lat} })
+            await Users.update({ email: req.body.email }, { $pull: {location: { lat: req.body.lat , long: req.body.lat}} })
             return res.status(200)
         }
     })
