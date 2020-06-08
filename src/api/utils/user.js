@@ -1,15 +1,16 @@
-const Users = require("../schema/mongoose.js") 
+const Users = require("../schema/mongoose.js")
 const jwt = require("jwt-simple")
 
 async function inscription(req,res){
     console.log("je m'inscris");
-    const user = jwt.decode(req.body.user)
-    const us = await Users.find({email: user.email})
+    //const user = jwt.decode(req.body.user)
+    const email = req.body.email;
+    const us = await Users.find({email: email})
     if(us.length == 0){
         await Users.create(user)
-            .then(res.status(404).json({ error: "Entity not found." }))
+            //.then(res.status(404).json({ error: "Entity not found." }))
             .catch(err => console.log("err" + err))
-        return res.status(200).json({user})        
+        return res.status(200).json({user})
     }else{
         return res.status(402).json({ error: "User already exist." })
     }
