@@ -1,12 +1,26 @@
 const Users = require("../schema/mongoose.js")
 
 async function friendList(req,res){
-    await Users.find({email:req.body.email},{friends:1}, function(err, friend){//email: "max@gmail.com"},{friends:1}, function(err, friend){
-        if (err){
+    const us = await Users.find({email : req.body.email});
+    const fri = await Users.find({email : req.body.email},{friends:1}, async function(err, friend){//email: "max@gmail.com"},{friends:1}, function(err, friend){
+        console.log("friends: " + us)
+        if (us.length == 0){
             return res.status(403).json({error: "User not found."})
             //console.log("User not found")
         }
         else{
+            const friend;
+            for (i in fri){
+                const friendLocation = await Users.find({email: friend[i].email, location: {status: true}}, {location:1})
+                if(friendLocation.length != 0){
+                    friend[i]= {"pseudoFriend": fri.pseudo, "status": fri[i].status, "location":{"lat": friendData.lat, "long": friendData.long}}
+                }
+                else{
+                    friend[i]= {"pseudoFriend": fri.pseudo, "status": fri[i].status}
+                }
+            }
+            const token = jwt.encode(friend,config.secret);
+            const msg = {"text":"Successfull Authentification","jwt.token":token,"friend":friend}
             return res.status(200).json(friend)
             //console.log("amis: " + friend)
         }

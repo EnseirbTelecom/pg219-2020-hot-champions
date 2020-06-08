@@ -12,6 +12,7 @@
     "base64url": "^3.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jwt-simple": "^0.5.6",
     "mongod": "^2.0.0",
     "mongodb": "^3.5.8",
     "mongoose": "^5.9.18"

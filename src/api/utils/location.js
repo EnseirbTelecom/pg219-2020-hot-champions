@@ -1,9 +1,16 @@
 const Users = require("../schema/mongoose.js")
 const jwt = require("jwt-simple")
+const config = require("../config/config");
 
 async function history(req,res){
     const loc = await Users.find({email: req.body.email},{location:1})
     if(loc.length != 0){
+        const loca;
+        for (i in loc){
+            loca[i]= {"lat":loc[i].lat, "long":loc[i].long, "time": loc[i].time};
+        }
+        const token = jwt.encode(loca,config.secret);
+        const msg = {"text":"Successfull Authentification","jwt.token":token,"location":loca}
         return res.status(200).json({loc});
     }
     else{
@@ -23,7 +30,7 @@ async function archiverLocation(req,res){
                     return res.status(400).json({error: "Request Error"});
                 }
                 else{
-                    return res.status(200).json({user})
+                    return res.status(200)
                 }
             }); 
         }
@@ -42,7 +49,7 @@ async function addLocation(req,res){
             return res.status(400).json({error: "Request error."})
         }
         else{
-            return res.status(200).json({user})
+            return res.status(200)
         }
     })
 } 

@@ -52,3 +52,4 @@ friend.friendList();
 friend.acceptFriend();
 //friend.deleteFriend();
 app.listen(port);
+db.dropDatabase()
