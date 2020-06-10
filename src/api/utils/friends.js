@@ -5,23 +5,32 @@ const config = require("../config/config");
 async function friendList(req,res){
     const us = await Users.find({email : req.body.email});
     const fri = await Users.find({email : req.body.email},{friends:1}, async function(err, friend){//email: "max@gmail.com"},{friends:1}, function(err, friend){
-        console.log("friends: " + us)
+        //console.log("user vaut: " + us)
         if (us.length == 0){
             return res.status(403).json({error: "User not found."})
             //console.log("User not found")
         }
         else{
+            //.log("friends " + friend)
             var friendList = new Array;
             var newFriend = "";
-            for (i in friend){
-                const friendLocation = await Users.find({email: i.email, location: {status: true}}, {location:1})
-                const pseudo = await Users.findOne({email: i.email, pseudo:1})
-                if(friendLocation.length != 0){
-                    newFriend = {"pseudoFriend": pseudo, "status": i.status, "location":{"lat": friendLocation.lat, "long": friendLocation.long}}
-                    friendList.push(newFriend);
+            for (i in friend[0].friends){
+                //console.log("i vaut: " + friend[0].friends[i])
+                var friendi = friend[0].friends[i]
+                const friendLocation = await Users.findOne({email: friendi.email}, {location:1}) //location: {status: true}}}, {location:1})
+                const pseudo = await Users.findOne({email: friendi.email}, {pseudo:1})
+                console.log("fiendloca : " + friendLocation.location)
+                for (j in friendLocation.location)
+                var friendLocationj = friendLocation.location[j]
+                console.log("fiendlocaJ : " + friendLocationj)
+                if (friendLocationj){
+                    if(friendLocationj.status == true){
+                        newFriend = {"pseudoFriend": pseudo, "status": friendi.status, "location":{"lat": friendLocationj.latitude, "long": friendLocationj.longitude}}
+                        friendList.push(newFriend);
+                    }
                 }
                 else{
-                    newFriend = {"pseudoFriend": pseudo, "status": i.status};
+                    newFriend = {"pseudoFriend": pseudo, "status": friendi.status};
                     friendList.push(newFriend);
                 }
             }
@@ -69,7 +78,7 @@ async function askFriend(req,res){
     const user = jwt.decode(token,config.secret)
     console.log("Ask user: " + user)
     const us = await Users.findOne({email: user.email})//req.body.emailFriend}, async function(err){
-        if(us.length == 0){
+        if(!us){
             return res.status(403).json({error: "User not found."})
             console.log("User adding not found")
         }
@@ -87,16 +96,11 @@ async function askFriend(req,res){
                     const us2 = await Users.find({email: req.body.emailFriend,"friends.email" : user.email})
                     if(us2.length == 0){
                         await Users.updateOne({email: user.email},{$push: {friends :newFriend2}})
-                        await Users.updateOne({email: req.body.emailFriend},{$push: {friends :newFriend}}, function(err, result){//req.body.email},{$set: {friends :newFriend}}, function(err, user){
-                            if (err){
-                                return res.status(400).json({error: "Request error."})
-                                console.log("Request error")
-                            }
-                            else{
-                                return res.status(200).json({result})
-                                console.log("is ok")
-                            }
-                        })
+                        await Users.updateOne({email: req.body.emailFriend},{$push: {friends :newFriend}})
+                        return res.status(200).json({"text":"Successfull Authentification"})
+                        console.log("is ok")
+
+
                       }
                       else{
                         console.log("Invitation already done before")

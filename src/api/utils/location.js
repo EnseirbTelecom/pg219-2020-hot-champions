@@ -3,19 +3,26 @@ const jwt = require("jwt-simple")
 const config = require("../config/config");
 
 async function history(req,res){
-    const loc = await Users.find({email: req.body.email},{location:1})
-    if(loc.length != 0){
-        const loca = new Array;
-        for (i in loc){
-            loca[i]= {"lat":loc[i].lat, "long":loc[i].long, "time": loc[i].time};
+    const token = req.body.token;
+    const user = jwt.decode(token,config.secret)
+    const loc = await Users.findOne({email: user.email},{location:1})
+    if (!loc){
+      return res.status(403).json({error: "Token missing or invalid"})
+    }
+    const loca = new Array;
+    for (i in loc.location){
+        var loci = loc.location[i]
+        if (!loci){
+          return res.status(406).json({error: "No location found"})
         }
-        const token = jwt.encode(loca,config.secret);
-        const msg = {"text":"Successfull Authentification","jwt.token":token,"location":loca}
-        return res.status(200).json({loc});
+        var newLoc = {"latitude":loci.latitude,"longitude":loci.longitude, "time": loci.time}
+        loca.push(newLoc);
     }
-    else{
-        return res.status(406).json({error: "No location found"})
+    if (loca.lentgh == 0){
+      return res.status(406).json({error: "No location found"})
     }
+    const msg = {"text":"Successfull Authentification","location":loca}
+    return res.status(200).json({msg});
 }
 
 async function archiverLocation(req,res){
@@ -54,26 +61,26 @@ async function addLocation(req,res){
     if (!us){
       return res.status(403).json({error: "Token missing or invalid"})
     }
-    await Users.updateOne({email: user.email}, {$push: {location: newLocation}}, async function(err, user){
-        if (err){
-            return res.status(400).json({error: "Request error."})
-        }
-        else{
-            return res.status(200).json({"text":"Successfull Authentification"})
-        }
-    })
+    await Users.updateOne({email: user.email}, {$push: {location: newLocation}})
+    return res.status(200).json({"text":"Successfull Authentification"})
+            
 }
 
 async function deleteLocation(req,res){
-    await Users.find({email: req.body.email}, async function(err, user){
+  const token = req.body.token;
+  const user = jwt.decode(token,config.secret)
+  const us = await Users.findOne({email: user.email}, async function(err, user){
         if (err){
-            return res.status(403).json({error: "User not found."})
-        }
-        else{
-            await Users.update({ email: req.body.email }, { $pull: {location: { lat: req.body.lat , long: req.body.lat}} })
-            return res.status(200).json({"text":"Successfull Authentification"})
+            return res.status(400).json({error: "Request error"})
         }
     })
+        if (!us){
+            return res.status(401).json({error: "Token missing or invalid"})
+            console.log("User not found")
+        }
+        await Users.update({ email: user.email }, { $pull: {location: { latitude: req.body.latitude , longitude: req.body.longitude}} })
+        return res.status(200).json({"text":"Successfull Authentification"})
+
 
 }
 

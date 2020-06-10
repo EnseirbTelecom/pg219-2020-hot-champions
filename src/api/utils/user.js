@@ -48,18 +48,19 @@ async function connexion(req,res){
 }
 
 async function userLocation(req,res){
-    const us = await Users.find({email: req.body.email})
-    if(us.length !=0 ){
-        const loc = await Users.find({email: req.body.email, location: {status: true}}, {location: 1})
-        if(loc.length != 0){
-            const loca = {"lat":loc.lat, "long":loc.long, "time": loc.time};
-            const token = jwt.encode(loca,config.secret);
-            const msg = {"text":"Successfull Authentification","jwt.token":token,"location":loca}
-            return res.status(200).json({msg})
+    const us = await Users.findOne({email: req.body.email})
+    if(us ){
+        const loc = await Users.findOne({email: req.body.email}, {location: 1})
+        for (i in loc.location){
+            loci = loc.location[i]
+            console.log("loci : " + loci)
+            if (loci.status == true){
+              const msg = {"latitude":loc.location[0].latitude, "longitude":loc.location[0].longitude, "time": loc.location[0].time};
+              return res.status(200).json({msg})
+            }
         }
-        else{
-            return res.status(405).json({error: "No location found."})
-        }
+        return res.status(405).json({error: "No location found."})
+
     }else{
         return res.status(403).json({error: "user not found"})
     }
