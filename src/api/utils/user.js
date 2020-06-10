@@ -48,9 +48,11 @@ async function connexion(req,res){
 }
 
 async function userLocation(req,res){
-    const us = await Users.findOne({email: req.body.email})
+    const token = req.body.token;
+    const user = jwt.decode(token,config.secret)
+    const us = await Users.findOne({email: user.email})
     if(us ){
-        const loc = await Users.findOne({email: req.body.email}, {location: 1})
+        const loc = await Users.findOne({email: user.email}, {location: 1})
         for (i in loc.location){
             loci = loc.location[i]
             console.log("loci : " + loci)

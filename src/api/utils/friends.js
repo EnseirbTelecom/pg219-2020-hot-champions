@@ -3,8 +3,10 @@ const jwt = require("jwt-simple")
 const config = require("../config/config");
 
 async function friendList(req,res){
-    const us = await Users.find({email : req.body.email});
-    const fri = await Users.find({email : req.body.email},{friends:1}, async function(err, friend){//email: "max@gmail.com"},{friends:1}, function(err, friend){
+    const token = req.body.token;
+    const user = jwt.decode(token,config.secret)
+    const us = await Users.find({email : user.email});
+    const fri = await Users.find({email : user.email},{friends:1}, async function(err, friend){//email: "max@gmail.com"},{friends:1}, function(err, friend){
         //console.log("user vaut: " + us)
         if (us.length == 0){
             return res.status(403).json({error: "User not found."})

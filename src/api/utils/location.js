@@ -26,22 +26,27 @@ async function history(req,res){
 }
 
 async function archiverLocation(req,res){
-    const loc = await Users.find({email : req.body.email, status: true}, async function(err, user){
-        console.log(loc)
+    const token = req.body.token;
+    const user = jwt.decode(token,config.secret)
+    const loc = await Users.findOne({email : user.email, "location.status": true}, async function(err, rep){
         if (err){
-            return res.status(406).json({error: "No location found"})
+            return res.status(400).json({error: "Request Error"})
         }
-        else{
-            await Users.update({email: req.body.email, location: {status: true}},{$set: {location:{status: false}}}, function(err, user){
+      })
+    console.log("loc vaut : " + loc)
+    if (!loc){
+      return res.status(406).json({error: "No location found"});
+    }
+            await Users.updateOne({email: user.email, "location.status": true},{$set: {"location.status": false}}, function(err, user){
                 if (err) {
                     return res.status(400).json({error: "Request Error"});
                 }
                 else{
-                    return res.status(200)
+                    return res.status(200).json({"text":"Successfull Authentification"})
                 }
             });
-        }
-    })
+
+
 }
 
 async function addLocation(req,res){
@@ -63,7 +68,7 @@ async function addLocation(req,res){
     }
     await Users.updateOne({email: user.email}, {$push: {location: newLocation}})
     return res.status(200).json({"text":"Successfull Authentification"})
-            
+
 }
 
 async function deleteLocation(req,res){
