@@ -28,6 +28,7 @@ async function history(req,res){
 async function archiverLocation(req,res){
     const token = req.body.token;
     const user = jwt.decode(token,config.secret)
+    const us = await Users.findOne({email: user.email}, {_id: 0, location: {$elemMatch: {status: "true"}}})
     const loc = await Users.findOne({email : user.email, "location.status": true}, async function(err, rep){
         if (err){
             return res.status(400).json({error: "Request Error"})
@@ -37,14 +38,18 @@ async function archiverLocation(req,res){
     if (!loc){
       return res.status(406).json({error: "No location found"});
     }
-            await Users.updateOne({email: user.email, "location.status": true},{$set: {"location.status": false}}, function(err, user){
-                if (err) {
-                    return res.status(400).json({error: "Request Error"});
-                }
-                else{
-                    return res.status(200).json({"text":"Successfull Authentification"})
-                }
-            });
+            //await Users.updateOne({email: user.email},{$set: {"location.0.status":false}}, function(err, user){
+            //    if (err) {
+            //        return res.status(400).json({error: "Request Error"});
+            //    }
+            //  })
+            await Users.updateOne({ email: user.email }, { $pull: {location: { latitude: us.location[0].latitude , longitude: us.location[0].longitude,status:us.location[0].status}} })
+            us.location[0].status = 0
+            await Users.updateOne({email: user.email}, {$push: {location: us.location[0]}})
+
+              return res.status(200).json({"text":"Successfull Authentification"})
+
+
 
 
 }
@@ -65,6 +70,12 @@ async function addLocation(req,res){
     })
     if (!us){
       return res.status(403).json({error: "Token missing or invalid"})
+    }
+    const current = await Users.findOne({email: user.email}, {_id: 0, location: {$elemMatch: {status: "true"}}})
+    if (current.location[0]){
+      await Users.updateOne({ email: user.email }, { $pull: {location: { latitude: current.location[0].latitude , longitude: current.location[0].longitude,status:current.location[0].status}} })
+      current.location[0].status = 0
+      await Users.updateOne({email: user.email}, {$push: {location: current.location[0]}})
     }
     await Users.updateOne({email: user.email}, {$push: {location: newLocation}})
     return res.status(200).json({"text":"Successfull Authentification"})

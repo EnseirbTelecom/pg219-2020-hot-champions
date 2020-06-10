@@ -57,7 +57,7 @@ async function userLocation(req,res){
             loci = loc.location[i]
             console.log("loci : " + loci)
             if (loci.status == true){
-              const msg = {"latitude":loc.location[0].latitude, "longitude":loc.location[0].longitude, "time": loc.location[0].time};
+              const msg = {"latitude":loci.latitude, "longitude":loci.longitude, "time": loci.time};
               return res.status(200).json({msg})
             }
         }
