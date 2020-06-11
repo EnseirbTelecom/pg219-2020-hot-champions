@@ -3,7 +3,7 @@ const jwt = require("jwt-simple")
 const config = require("../config/config");
 
 async function history(req,res){
-    const token = req.body.token;
+    const token = req.query.token;
     const user = jwt.decode(token,config.secret)
     const loc = await Users.findOne({email: user.email},{location:1})
     if (!loc){

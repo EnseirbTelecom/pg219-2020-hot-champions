@@ -33,11 +33,9 @@ async function inscription(req,res){
 }
 
 async function connexion(req,res){
-    console.log(req.body);
-    const us = await Users.findOne({email: req.body.email});
-    console.log(us);
+    const us = await Users.findOne({email: req.query.email});
     if(us){
-        const pass = await Users.find({email: req.body.email, password: {$eq: base64url.encode(req.body.password)}});
+        const pass = await Users.find({email: req.query.email, password: {$eq: base64url.encode(req.query.password)}});
         if(pass.length !=0 ){
             const user = {"email":us.email,"pseudo":us.pseudo,"firstName":us.firstName,"lastName":us.lastName,"birthDate":us.birthDate};
             const token = jwt.encode(user,config.secret);
@@ -52,7 +50,7 @@ async function connexion(req,res){
 }
 
 async function userLocation(req,res){
-    const token = req.body.token;
+    const token = req.query.token;
     const user = jwt.decode(token,config.secret)
     const us = await Users.findOne({email: user.email})
     if(us ){
