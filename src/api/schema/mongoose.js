@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
     firstName : String,
     lastName : String,
     pseudo : String,
+    birthDate : String,
     friends : [{
         email : String,
         status : Number,
