@@ -1,8 +1,8 @@
 const friends = require('../utils/friends.js');
 
 module.exports = function(app){
-    app.get('/friendList', friends.friendList);
-    app.put('/acceptFriend',friends.acceptFriend);
-    app.post('/askFriend', friends.askFriend);
-    app.delete('/deleteFriend',friends.deleteFriend);
+    app.get('/friends', friends.friendList);
+    app.put('/friends',friends.acceptFriend);
+    app.post('/friends', friends.askFriend);
+    app.delete('/friends',friends.deleteFriend);
 }
