@@ -109,11 +109,12 @@ export default class extends React.Component {
     const router = self.$f7.views.main.router;
     if (self.state.validated&&self.state.email&&self.state.password&&self.state.firstName&&self.state.lastName&&self.state.pseudo&&self.state.birthdate){
         try{
-            const {status, result} = await API.signup(self.state.email,self.state.password,self.state.firstName, self.state.lastName,self.state.pseudo, self.state.birthdate)
+            const {status, data} = await API.signup(self.state.email,self.state.password,self.state.firstName, self.state.lastName,self.state.pseudo, self.state.birthdate)
             if (status===200){
-                localStorage.setItem("token",result.token);
-                localStorage.setItem("user",result.user);
-                router.navigate('/');
+                localStorage.setItem("token",data.token);
+                localStorage.setItem("user",data.user);
+                console.log("good")
+                //router.navigate('/',{reloadCurrent:true});
             }
         }
         catch(error){

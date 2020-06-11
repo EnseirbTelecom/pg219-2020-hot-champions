@@ -58,11 +58,11 @@ export default class extends React.Component {
     const router = self.$f7.views.main.router;
     if (self.state.validated&&self.state.password&&self.state.email){
         try{
-            const {status, result} = await API.login(self.state.email,self.state.password)
+            const {status, data} = await API.login(self.state.email,self.state.password)
             if (status===200){
-              localStorage.setItem("token",result.token);
-              localStorage.setItem("user",result.user);
-              router.navigate('/');
+              localStorage.setItem("token",data.token);
+              localStorage.setItem("user",data.user);
+              router.navigate('/', {reloadCurrent:true});
             }
         }
         catch(error){

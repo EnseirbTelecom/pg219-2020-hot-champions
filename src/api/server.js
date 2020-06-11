@@ -35,7 +35,6 @@ app.use('/test', function(req, res) {
 });
 app.use("/user", router);
 require(__dirname + "/controllers/userController")(router);
-app.use("/user/location", router);
 app.use("/location", router);
 require(__dirname + "/controllers/locationController")(router);
 app.use("/friends", router);
