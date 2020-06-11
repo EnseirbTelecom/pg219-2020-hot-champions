@@ -168,7 +168,7 @@ export default class extends React.Component {
     const app = self.$f7;
     const router = self.$f7.views.main.router;
     try{
-      const {status, result} = await API.addLocation(localStorage.getItem("token"),self.state.form);
+      const {status, data} = await API.addLocation(localStorage.getItem("token"),self.state.form);
       if (status===200){
         app.dialog.alert("Current Position Added");
         this.getMyPosition();
