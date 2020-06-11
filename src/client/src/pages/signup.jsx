@@ -113,8 +113,7 @@ export default class extends React.Component {
             if (status===200){
                 localStorage.setItem("token",data.token);
                 localStorage.setItem("user",data.user);
-                console.log("good")
-                //router.navigate('/',{reloadCurrent:true});
+                router.navigate('/',{reloadCurrent:true});
             }
         }
         catch(error){

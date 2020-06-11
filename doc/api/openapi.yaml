@@ -22,22 +22,19 @@ paths:
         - user
       summary: Connexion d'un utilisateur
       operationId: login
-      requestBody:
-        description: Object permettant de passer les paramètres du formulaire
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: 
-                email:
-                  desciption: Email de l'utilisateur unique
-                  type: string
-                  example: toto@mail.fr
-                password:
-                  desciption: Mot de passe de l'utilisateur
-                  type: string
-                  example: 84zr2FaPC
+      parameters:
+        - name: email
+          in: query
+          desciption: Email de l'utilisateur unique
+          required: true 
+          type: string
+          example: toto@mail.fr
+        - name: password
+          in: query
+          desciption: Mot de passe de l'utilisateur
+          required: true 
+          type: string
+          example: 84zr2FaPC
       responses:
         '200':
           description: Successfull Authentification
@@ -151,18 +148,12 @@ paths:
         - user
       summary: Récupérer position courante de l'utilisateur
       operationId: getCurrendLocation
-      requestBody:
-          description: Object permettant de passer les paramètres du formulaire
-          required: true
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: 
-                  jwt.token:
-                    type: string
-                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODA5MjkyODIsImV4cCI6MTQ4MDkzMjg2OCwibmFtZSI6IlVzZXJuYW1lIn0.gZeuWNbjO8kyEX92AjgX5oLy5qhu6YWTPr6vtYELZQ4
-                  
+      parameters: 
+        - name: jwt.token
+          in: query
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODA5MjkyODIsImV4cCI6MTQ4MDkzMjg2OCwibmFtZSI6IlVzZXJuYW1lIn0.gZeuWNbjO8kyEX92AjgX5oLy5qhu6YWTPr6vtYELZQ4
+        
       responses:
         '200':
           description: Successfull Authentification
@@ -299,17 +290,11 @@ paths:
         - friends
       summary: Récupérer la liste des amis
       operationId: getFriends
-      requestBody:
-        description: Object permettant de passer les paramètres du formulaire
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: 
-                jwt.token:
-                      type: string
-                      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODA5MjkyODIsImV4cCI6MTQ4MDkzMjg2OCwibmFtZSI6IlVzZXJuYW1lIn0.gZeuWNbjO8kyEX92AjgX5oLy5qhu6YWTPr6vtYELZQ4   
+      parameters:
+        - name: jwt.token
+          in: query
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODA5MjkyODIsImV4cCI6MTQ4MDkzMjg2OCwibmFtZSI6IlVzZXJuYW1lIn0.gZeuWNbjO8kyEX92AjgX5oLy5qhu6YWTPr6vtYELZQ4   
       responses:
         '200':
           description: Successfull Authentification
@@ -354,17 +339,11 @@ paths:
         - location
       summary: Récupérer l'historique des positions
       operationId: history
-      requestBody:
-        description: Object permettant de passer les paramètres du formulaire
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: 
-                jwt.token:
-                  type: string
-                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODA5MjkyODIsImV4cCI6MTQ4MDkzMjg2OCwibmFtZSI6IlVzZXJuYW1lIn0.gZeuWNbjO8kyEX92AjgX5oLy5qhu6YWTPr6vtYELZQ4  
+      parameters:
+        - name: jwt.token
+          in: query
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODA5MjkyODIsImV4cCI6MTQ4MDkzMjg2OCwibmFtZSI6IlVzZXJuYW1lIn0.gZeuWNbjO8kyEX92AjgX5oLy5qhu6YWTPr6vtYELZQ4  
       responses:
         '200':
           description: Successfull Authentification
