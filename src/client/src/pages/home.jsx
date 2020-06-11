@@ -28,11 +28,13 @@ export default class extends React.Component {
   renderBadge = () =>{
     let friends = this.state.friends
     let friendRequest = 0;
-    friends.forEach((element)=>{
-      if (element.status===2){
-        friendRequest++;
-      }
-    })
+    if(friends){
+      friends.forEach((element)=>{
+        if (element.status===2){
+          friendRequest++;
+        }
+      })
+    }
     if (friendRequest !==0){
       return <Badge color="red">{friendRequest}</Badge>
     }

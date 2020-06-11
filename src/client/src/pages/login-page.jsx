@@ -56,6 +56,7 @@ export default class extends React.Component {
     const self = this;
     const app = self.$f7;
     const router = self.$f7.views.main.router;
+    console.log(self.state)
     if (self.state.validated&&self.state.password&&self.state.email){
         try{
             const {status, data} = await API.login(self.state.email,self.state.password)

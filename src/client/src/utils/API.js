@@ -9,8 +9,10 @@ export default{
         return axios.get(
             `${burl}/user`,
             {
-                email: email,
-                password: password
+                params:{
+                    email: email,
+                    password: password
+                }
             },
             {
                 headers: headers
@@ -51,7 +53,9 @@ export default{
         return axios.get(
             `${burl}/location`,
             {
-                token: token
+                params:{
+                    token: token
+                }
             },
             {
                 headers: headers
@@ -141,7 +145,9 @@ export default{
         return axios.get(
             `${burl}/friends`,
             {
-                token: token
+                params:{
+                    token: token
+                }
             },
             {
                 headers: headers
