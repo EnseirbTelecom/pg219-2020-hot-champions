@@ -17,6 +17,8 @@ async function inscription(req,res){
     const userInfo = {"email" : email, "firstName" : firstName, "lastName" : lastName, "pseudo": pseudo, "birthDate" : birthDate};
     const us = await Users.find({email: email});
     if(us.length == 0){
+        const userData = new Users(user)
+        userData.save
         await Users.create(user)
             //.then(res.status(404).json({ error: "Entity not found." }))
             .catch(err => console.log("err" + err))
