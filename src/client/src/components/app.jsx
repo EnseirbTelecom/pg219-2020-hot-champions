@@ -76,7 +76,7 @@ export default class extends React.Component {
   }
 
   componentWillMount(){
-    let friends = [{location: {lat:44, lng:-0.5}, pseudoFriend:"testo", status: 1, color:"#997a8d"}, {location: {lat:44.6, lng:-0.57}, pseudoFriend:"polo", status:0, color:"#f0c300"}];
+    let friends = [{location: {lat:44, lng:-0.5}, pseudoFriend:"testo", status: 1, color:"#997a8d"}, {location: {lat:44.6, lng:-0.57}, pseudoFriend:"polo", status:2, color:"#f0c300"}];
     localStorage.setItem("friends", JSON.stringify(friends));
     let myLocation={location:{lat: 44.8333,lng: -0.5667}, time:{date:"12/05/2020", hour:"12h20"}}
     localStorage.setItem("myLocation", JSON.stringify(myLocation));
@@ -269,6 +269,8 @@ export default class extends React.Component {
         cordovaApp.init(f7);
       }
       // Call F7 APIs here
+      this.getMyPosition();
+      this.getFriends();
       this.$f7.on('panelOpened', ()=>{
         let searchbar = this.$f7.searchbar.get('.searchbar');    
         if (localStorage.getItem("friendClicked")!=="false"){
