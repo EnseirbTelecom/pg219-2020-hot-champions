@@ -18,10 +18,10 @@ async function inscription(req,res){
     const us = await Users.find({email: email});
     if(us.length == 0){
         const userData = new Users(user)
-        userData.save
-        await Users.create(user)
+        userData.save()
+        //await Users.create(user)
             //.then(res.status(404).json({ error: "Entity not found." }))
-            .catch(err => console.log("err" + err))
+            //.catch(err => console.log("err" + err))
         const token = jwt.encode(userInfo,config.secret);
         id++;
         const msg = {"text ":"Successfull Authentification", "jwt.token":token,"user":userInfo}
