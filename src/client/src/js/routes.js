@@ -14,7 +14,7 @@ function securedRoute(path, component, name) {
     path,
     name, 
     async(to, from, resolve, reject) {
-      if (!API.isAuth()) {
+      if (API.isAuth()) {
         resolve({ component: component });
       } else {
         resolve({ component: LoginPage });

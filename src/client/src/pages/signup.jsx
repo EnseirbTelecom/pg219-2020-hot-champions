@@ -1,5 +1,5 @@
 import React from 'react';
-import{Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter, Link} from 'framework7-react';
+import{Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter, Link, Block} from 'framework7-react';
 import API from '../utils/API'
 
 export default class extends React.Component {
@@ -13,7 +13,7 @@ export default class extends React.Component {
         lastName:'',
         pseudo:'',
         birthdate:'',
-        validated:0
+        validated:false,
     };
   }
 
@@ -26,9 +26,8 @@ export default class extends React.Component {
                 label="Email"
                 type="email"
                 validate
-                onValidate={(isValid) => this.state.validated++}
                 required
-                validate
+                onValidate={isValid=>this.setState({validated:isValid})}
                 placeholder="example@example.com"
                 value = {this.state.email}
                 onInput={(e) => {
@@ -40,7 +39,6 @@ export default class extends React.Component {
                 type="password"
                 required
                 validate
-                onValidate={(isValid) => this.state.validated++}
                 placeholder="***********"
                 value = {this.state.password}
                 onInput={(e) => {
@@ -52,7 +50,6 @@ export default class extends React.Component {
                 type="text"
                 required
                 validate
-                onValidate={(isValid) => this.state.validated++}
                 placeholder="Your Frist Name"
                 value = {this.state.firstName}
                 onInput={(e) => {
@@ -64,7 +61,6 @@ export default class extends React.Component {
                 type="text"
                 required
                 validate
-                onValidate={(isValid) => this.state.validated++}
                 placeholder="Your Last Name"
                 value = {this.state.lastName}
                 onInput={(e) => {
@@ -76,7 +72,6 @@ export default class extends React.Component {
                 type="text"
                 required
                 validate
-                onValidate={(isValid) => this.state.validated++}
                 placeholder="Your Pseudo"
                 value = {this.state.pseudo}
                 onInput={(e) => {
@@ -87,25 +82,23 @@ export default class extends React.Component {
                 label="Birthdate"
                 type="datepicker"
                 placeholder="Select date"
-                readonly
-                validate
-                onValidate={(isValid) => this.state.validated++}
+                readonly        
                 required
                 calendarParams={{openIn: 'customModal', header: true, footer: true, dateFormat: 'dd mm yyyy', disabled: {
                     from: new Date()
                 },}}
                 value = {this.state.birthdate}
                 onCalendarChange={(e) => {
-                this.setState({ birthdate: e});
+                  this.setState({ birthdate: e});
                 }}
             />
-        </List>
-        <List>
-          <ListButton onClick={this.signup.bind(this)}>Sign Up</ListButton>
-          <BlockFooter>
-            <p>Already registered ?</p>
-            <Link href="/" color="blue"> Sign In</Link>
-          </BlockFooter>
+          <Block>
+            <ListButton onClick={this.signup.bind(this)}>Sign Up</ListButton>
+            <BlockFooter>
+              <p>Already registered ?</p>
+              <Link href="/" color="blue"> Sign In</Link>
+            </BlockFooter>
+          </Block>
         </List>
       </Page>
     )
@@ -114,7 +107,7 @@ export default class extends React.Component {
     const self = this;
     const app = self.$f7;
     const router = self.$f7.views.main.router;
-    if (self.state.validated === 13){
+    if (self.state.validated&&self.state.email&&self.state.password&&self.state.firstName&&self.state.lastName&&self.state.pseudo&&self.state.birthdate){
         try{
             const {status, result} = await API.signup(self.state.email,self.state.password,self.state.firstName, self.state.lastName,self.state.pseudo, self.state.birthdate)
             if (status===200){

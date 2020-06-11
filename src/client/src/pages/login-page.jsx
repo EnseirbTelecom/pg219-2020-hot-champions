@@ -1,5 +1,5 @@
 import React from 'react';
-import{Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter, Link} from 'framework7-react';
+import{Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter, Link, Block} from 'framework7-react';
 import API from '../utils/API'
 
 export default class extends React.Component {
@@ -9,7 +9,7 @@ export default class extends React.Component {
     this.state = {
       email: '',
       password: '',
-      validated:0,
+      validated:false,
     };
   }
 
@@ -23,7 +23,7 @@ export default class extends React.Component {
             type="email"
             required
             validate
-            onValidate={(isValid) => this.state.validated++}
+            onValidate={(isValid) => this.setState({validated:true})}
             placeholder="example@example.com"
             value={this.state.email}
             onInput={(e) => {
@@ -35,20 +35,19 @@ export default class extends React.Component {
             type="password"
             required
             validate
-            onValidate={(isValid) => this.state.validated++}
             placeholder="***********"
             value={this.state.password}
             onInput={(e) => {
               this.setState({ password: e.target.value});
             }}
           />
-        </List>
-        <List>
-          <ListButton onClick={this.signIn.bind(this)}>Sign In</ListButton>
-          <BlockFooter>
-            <p>Not registered yet ?</p>
-            <Link href="/signup/" color="blue"> Sign Up</Link>
-          </BlockFooter>
+          <Block>
+            <ListButton onClick={this.signIn.bind(this)}>Sign In</ListButton>
+            <BlockFooter>
+              <p>Not registered yet ?</p>
+              <Link href="/signup/" color="blue"> Sign Up</Link>
+            </BlockFooter>
+          </Block>
         </List>
       </Page>
     )
@@ -57,7 +56,7 @@ export default class extends React.Component {
     const self = this;
     const app = self.$f7;
     const router = self.$f7.views.main.router;
-    if (self.state.validated === 2){
+    if (self.state.validated&&self.state.password&&self.state.email){
         try{
             const {status, result} = await API.login(self.state.email,self.state.password)
             if (status===200){
