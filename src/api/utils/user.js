@@ -2,6 +2,8 @@ const Users = require("../schema/mongoose.js")
 const jwt = require("jwt-simple")
 const config = require("../config/config");
 const base64url = require('base64url');
+const mongoose = require('mongoose');
+
 
 let id = 1;
 async function inscription(req,res){
@@ -13,19 +15,15 @@ async function inscription(req,res){
     const lastName = req.body.lastName;
     const pseudo = req.body.pseudo;
     const birthDate = req.body.birthDate;
-    const user = {"_id":id ,"email" : email, "password" : password, "firstName" : firstName, "lastName" : lastName, "pseudo": pseudo, "birthDate" : birthDate};
+    const user = {"_id": mongoose.Types.ObjectId(),"email" : email, "password" : password, "firstName" : firstName, "lastName" : lastName, "pseudo": pseudo, "birthDate" : birthDate};
     const userInfo = {"email" : email, "firstName" : firstName, "lastName" : lastName, "pseudo": pseudo, "birthDate" : birthDate};
     const us = await Users.find({email: email});
     if(us.length == 0){
         const userData = new Users(user)
         userData.save()
-        //await Users.create(user)
-            //.then(res.status(404).json({ error: "Entity not found." }))
-            //.catch(err => console.log("err" + err))
         const token = jwt.encode(userInfo,config.secret);
         id++;
-        const msg = {"text ":"Successfull Authentification", "jwt.token":token,"user":userInfo}
-        //console.log(jwt.decode(token,config.secret))
+        const msg = {"text ":"Successfull Authentification", "token":token,"user":userInfo}
         return res.status(200).json(msg)
     }else{
         return res.status(402).json({ error: "User already exist." })
@@ -39,7 +37,8 @@ async function connexion(req,res){
         if(pass.length !=0 ){
             const user = {"email":us.email,"pseudo":us.pseudo,"firstName":us.firstName,"lastName":us.lastName,"birthDate":us.birthDate};
             const token = jwt.encode(user,config.secret);
-            const msg = {"text":"Successfull Authentification","jwt.token":token,"user":user}
+            console.log(user)
+            const msg = {"text":"Successfull Authentification","token":token,"user":user}
             return res.status(200).json({msg})
         }else{
             return res.status(405).json({error: "wrong password"})

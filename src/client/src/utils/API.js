@@ -1,4 +1,5 @@
 import axios from "axios";
+import {useSelector} from 'react-redux'
 const headers = {
     "Content-Type": "application/json",
   };
@@ -154,13 +155,4 @@ export default{
             }
         );
     },
-
-
-    isAuth: function() {
-        if (localStorage.getItem("token") !== null)
-            return true;
-        else
-            return false;
-    }
-
 };

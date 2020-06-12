@@ -7,14 +7,15 @@ import SignupPage from '../pages/signup.jsx'
 import LoginPage from '../pages/login-page.jsx';
 import NotFoundPage from '../pages/404.jsx';
 
-import API from '../utils/API'
+import {useSelector} from 'react-redux'
 
 function securedRoute(path, component, name) {
   return {
     path,
     name, 
     async(to, from, resolve, reject) {
-      if (API.isAuth()) {
+
+      if (JSON.parse(localStorage.getItem("token"))) {
         resolve({ component: component });
       } else {
         resolve({ component: LoginPage });

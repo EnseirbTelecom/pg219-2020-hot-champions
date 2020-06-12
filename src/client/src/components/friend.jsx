@@ -2,7 +2,6 @@ import React from 'react';
 import{ListItem, Icon, SwipeoutActions, SwipeoutButton, Button} from 'framework7-react';
 
 
-
 export default class Friend extends React.Component{
     constructor(props){
         super(props);

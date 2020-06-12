@@ -16,14 +16,21 @@ import 'framework7/css/framework7.bundle.css';
 import '../css/app.scss';
 
 // Import App Component
-import App from '../components/app.jsx';
+import {AppFF} from '../components/app.jsx';
 
+// Global State
+import {createStore} from 'redux';
+import allReducer from '../reducers'
+import {Provider} from 'react-redux'
+const store = createStore(allReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 // Init F7 Vue Plugin
 localStorage.setItem("friendClicked", false);
 Framework7.use(Framework7React)
 // Mount React App
 ReactDOM.render(
-  React.createElement(App),
+  <Provider store={store}>
+    <AppFF></AppFF>
+  </Provider>,
   document.getElementById('app'),
 );
