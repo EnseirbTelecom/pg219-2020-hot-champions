@@ -56,6 +56,7 @@ export default class Map extends React.Component {
   
 
   render() {
+    console.log(this.state.center);
     const friendRendered = this.renderFriends();
     const myLocation = this.renderMyLocation();
     return (

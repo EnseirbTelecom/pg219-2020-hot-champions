@@ -2,26 +2,45 @@ import React, {useEffect, useState} from 'react';
 import{Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter, Link, Block, f7} from 'framework7-react';
 import API from '../utils/API'
 import {useSelector, useDispatch} from 'react-redux'
-import {updateUser} from '../actions'
+import {updateUser, signIn} from '../actions'
 
 const Login = () => {
   
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [validated, useValidated] = useState(false);
+  const dispatch = useDispatch();
+  function actionCreator(payload) {
+    return dispatch => {
+        dispatch(updateUser(payload.user))
+        dispatch(signIn(payload.token))
+    }
+}
+
   const signIn= async() => {
     const app = f7;
     const router = app.views.main.router;
-    const dispatch = useDispatch();
+    
     if (validated&&password&&email){
         try{
-            const {status, data} = await API.login(self.state.email,self.state.password)
-            if (status===200){
-              dispatch(updateUser(data)),
-              router.navigate('/', {reloadCurrent:true});
-            }
+            //const {status, data} = 
+            await API.login(email,password).then((res)=>{
+            if (res.status===200){  
+              actionCreator(res.data.msg);                            
+              localStorage.setItem("token", res.data.msg.token)
+            }});
+            router.navigate('/', {reloadCurrent:true});
+            // console.log(data);
+            // if (status===200){
+            //   dispatch(updateUser(data.msg.user));
+            //   dispatch(signIn(data.msg.token));                                 
+            //   localStorage.setItem("token", data.msg.token)
+            //   console.log("error");
+            //   router.navigate('/', {reloadCurrent:true});
+            // }
         }
         catch(error){
+            console.log(error);
             if (error.response.status === 403){
               app.dialog.alert("User Not Found");
             }

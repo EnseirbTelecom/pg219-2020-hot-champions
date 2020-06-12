@@ -37,12 +37,14 @@ export default{
         );
     },
     
-    getCurrentLocation: function(token) {
-        return axios.post(
+    getCurrentLocation: function(email,token) {
+        return axios.get(
             `${burl}/user/location`,
             {
-                email: email,
-                token: token
+                params:{
+                    email: email,
+                    token: token
+                }
             },
             {
                 headers: headers

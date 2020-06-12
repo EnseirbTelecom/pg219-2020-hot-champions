@@ -14,8 +14,7 @@ function securedRoute(path, component, name) {
     path,
     name, 
     async(to, from, resolve, reject) {
-
-      if (JSON.parse(localStorage.getItem("token"))) {
+      if (localStorage.getItem("token")) {
         resolve({ component: component });
       } else {
         resolve({ component: LoginPage });

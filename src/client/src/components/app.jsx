@@ -34,17 +34,15 @@ import API from '../utils/API'
 
 import {useSelector, useDispatch} from 'react-redux'
 import {updateFriends, updateLocation, updateUser} from '../actions'
-
+const jwtDecode = require("jwt-decode");
 
 export const AppFF = () => {
-  
-  const user = useSelector(state=>state.user);
-  const token = useSelector (state=> state.token);
+  const token = localStorage.getItem("token");
   const friends = useSelector(state=>state.friends);
-  const location = useSelector (state=>state.location);
+  const position = useSelector (state=>state.location);
   const dispatch = useDispatch();
-  localStorage.setItem("token", token);
-    
+  const user = jwtDecode(localStorage.getItem("token"));
+  //const user = useSelector(state=>state.user);
   const [f7params, setF7params] = useState({
     id: 'io.framework7.myapp', // App bundle ID
     name: 'FriendFinder', // App name
@@ -78,21 +76,22 @@ export const AppFF = () => {
       lng:0
     }
   });
-  const [renderedMap,setRenderedMap]=useState(false);
+  const [renderedMap,setRenderedMap]=useState(true);
 
   
  
   const setPosition = (lat, lng) =>{
-    setForm(prev=>({
-      ...prev,
-      [location] : {
+    setForm({
+      ...form,
+      location : {
         lat : lat,
         lng : lng,
-      }})); 
+      }}); 
     setRenderedMap(true);
   }
 
   const setDate=()=>{
+    
     let dateTime = new Date();
     let mm = dateTime.getMonth() + 1;
     mm = (mm>9 ? '' : '0') + mm;
@@ -103,13 +102,14 @@ export const AppFF = () => {
     hh = (hh>9 ? '' : '0') + hh;
     let minmin = dateTime.getMinutes();
     minmin = (minmin>9 ? '' : '0') + minmin;
-    setForm(prev=>({
-      ...prev,
-      [time]:{
+    setForm({
+      ...form,
+      time:{
         date:dd+"/"+mm+"/"+yy,
         hour:  hh+"h"+minmin,
       }
-    }))
+    })
+    console.log("time:" + JSON.stringify(form.time));
   }
 
 const setBirthDate =()=>{
@@ -146,12 +146,13 @@ const getFriends = async () =>{
 const getMyPosition = async ()=>{
     try{
 
-      const {status, data} = await API.getCurrentLocation(token);
+      const {status, data} = await API.getCurrentLocation(user.email, token);
       if (status===200){
           dispatch(updateLocation(data));
       }
     }
     catch(e){
+      console.log(e);
       if (e.response.status ===406){
           dispatch(updateLocation(false));
       }
@@ -248,7 +249,7 @@ const handleClick = async (email) =>{
   const renderFriendsRequest = () =>{
     let friendsRendered = [];
     let list = [<ListItem groupTitle title="Friend Requests"></ListItem>];
-    if (friends!==false){
+    if (friends){
       friendsRendered = friends.map((element,i)=>
         (element.status===0 || element.status===2 ? <Friend key={i} pseudo={element.pseudoFriend} handleClick={handleClick.bind(element.email)} action={onDeleted.bind(element.email)} request={element.status}></Friend> : null)
       );
@@ -282,9 +283,11 @@ const handleClick = async (email) =>{
         setDate();
       })
 
-      // navigator.geolocation.getCurrentPosition((position) => {
-      //   setPosition(position.coords.latitude, position.coords.longitude);
-      // }, (error)=>console.log(error));
+      getMyPosition();
+      
+      navigator.geolocation.getCurrentPosition((position) => {
+        setPosition(position.coords.latitude, position.coords.longitude);
+      }, (error)=>console.log(error));
     });
   });
 
@@ -402,7 +405,7 @@ const handleClick = async (email) =>{
                 <Link popupClose>Close</Link>
               </NavRight>
             </Navbar>
-            {renderedMap ? <Map height = "30vh" friends={false} zoom={15} center={{lat: form.location.lat, lng: form.location.lng}} me={{lat: form.location.lat, lng: form.location.lng}}></Map> :  <Block className="text-align-center"><Preloader size={42}></Preloader></Block>}
+            {renderedMap ? <Map height = "30vh" friends={false} zoom={15} center={position.location} me={position.location}></Map> :  <Block className="text-align-center"><Preloader size={42}></Preloader></Block>}
             <Block>
               <List noHairlinesMd form>
                 <ListItem header="Latitude" title={form.location.lat}></ListItem>
@@ -416,9 +419,9 @@ const handleClick = async (email) =>{
                   value = {form.message}
                   onInput={(e) => {
                   const {name, value} = e.target;
-                  setForm(pre=>({
-                    ...prev,
-                    [message] : value,}))}}
+                  setForm({
+                    ...form,
+                    message : value,})}}
                   
                 ></ListInput>
                 <ListInput
@@ -426,7 +429,7 @@ const handleClick = async (email) =>{
                   type="select"
                   input={false}
                 >
-                  <Range slot="input" value={12} min={1} max={72} step={1} label={true} onRangeChange={(value)=>setForm(prev=>({...prev, [validity]: value}))}/>
+                  <Range slot="input" value={12} min={1} max={72} step={1} label={true} onRangeChange={(value)=>setForm({...form, validity: value})}/>
                 </ListInput>
                 <ListButton onClick={()=>addLocation()}>Add this location</ListButton>
               </List>

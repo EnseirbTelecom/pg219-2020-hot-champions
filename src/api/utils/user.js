@@ -50,15 +50,16 @@ async function connexion(req,res){
 
 async function userLocation(req,res){
     const token = req.query.token;
-    const user = jwt.decode(token,config.secret)
-    const us = await Users.findOne({email: user.email})
-    if(us ){
-        const loc = await Users.findOne({email: user.email}, {location: 1})
+    const email = req.query.email;
+    const us = await Users.findOne({email:email});
+    const isAuth = jwt.decode(token,config.secret);
+    if(us && isAuth){
+        const loc = await Users.findOne({email:email}, {location: 1})
         for (i in loc.location){
             loci = loc.location[i]
             console.log("loci : " + loci)
             if (loci.status == true){
-              const msg = {"latitude":loci.latitude, "longitude":loci.longitude, "time": loci.time};
+              const msg = {"location":{"lat":loci.latitude, "lng":loci.longitude}, "time": loci.time};
               return res.status(200).json({msg})
             }
         }

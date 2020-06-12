@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import{Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter, Link, Block, f7} from 'framework7-react';
+import{Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter, Link, Block, f7, f7router} from 'framework7-react';
 import API from '../utils/API'
 import {useSelector, useDispatch} from 'react-redux'
 import {updateUser, signIn} from '../actions'
@@ -13,6 +13,7 @@ const Signup =()=> {
     const [birthdate, setBirthdate] = useState('');
     const [validation, setValidation] = useState(false);
     const dispatch = useDispatch();
+    
     const  signup = async () => {
       const app = f7;
       const router = f7.views.main.router;
@@ -21,7 +22,7 @@ const Signup =()=> {
           try{
               const {status, data} = await API.signup(email,password,firstName, lastName,pseudo, birthdate)
               if (status===200){
-                  dispatch(updateUser(data));
+                  dispatch(updateUser(data.user));
                   dispatch(signIn(data.token));
                   router.navigate('/',{reloadCurrent:true});
               }

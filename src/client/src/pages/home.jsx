@@ -23,7 +23,7 @@ const Home = () => {
     setMap(true);
   });
   const friends = useSelector(state=>state.friends);
-  const myLocation = useSelector(state=>state.location);
+  const myLocation = useSelector(state=>state.location.location);
   const renderBadge = () =>{
     
     let friendRequest = 0;
