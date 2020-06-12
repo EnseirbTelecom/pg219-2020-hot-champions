@@ -1,7 +1,9 @@
 # FriendFinder 
 ## Installation 
 Npm install --save in server and /src/client 
+
 Npm install --save mongoose in /src/api
+
 Npm install --save mongodb in /src/api 
 
 ## Start 
