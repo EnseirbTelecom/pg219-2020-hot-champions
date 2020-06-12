@@ -1,11 +1,16 @@
 # FriendFinder 
 ## Installation 
-Npm install --save 
-Npm install --save mongoose 
-Npm install --save mongodb
+Npm install --save in server and client 
+
+Npm install --save mongoose in server
+
+Npm install --save mongodb in server 
+
 ## Start 
 Npm start in /src/api
+
 Npm start in /src/client 
+
 ## About
 Launch server and client. The app allow the user 
 to show on a map his position and the position of
